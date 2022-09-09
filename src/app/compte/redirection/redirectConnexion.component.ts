@@ -8,7 +8,7 @@ export class RedirectConnexionComponent implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.router.navigate(['/compte/connexion'], { queryParams: { returnUrl: state.url }});
-    return false;
+    this.router.navigate(['/compte/connexion'], {queryParams: {returnUrl: state.url}}).then(() => "Erreur");
+     return false;
   }
 }
