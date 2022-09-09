@@ -1,0 +1,51 @@
+<div class="card fondCreation">
+  <h1 class="card-header headerCreation">Création compte</h1>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" [style.marginLeft.px]="200">
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" formControlName="prenom" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+               [style.width.px]="350" />
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <div *ngIf="f.prenom.errors.required">Le prenom est requis</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nomFamille">Nom de famille</label>
+        <input type="text" formControlName="nomFamille" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.nomFamille.errors }"
+               [style.width.px]="350" />
+        <div *ngIf="submitted && f.nomFamille.errors" class="invalid-feedback">
+          <div *ngIf="f.nomFamille.errors.required">Le nom de famille est requis</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nomUtilisateur">Nom d'utilisateur</label>
+        <input type="text" formControlName="nomUtilisateur" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.nomUtilisateur.errors }"
+               [style.width.px]="350" />
+        <div *ngIf="submitted && f.nomUtilisateur.errors" class="invalid-feedback">
+          <div *ngIf="f.nomUtilisateur.errors.required">Le nom d'utilisateur est requis</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="motPasse">Mot de passe</label>
+        <input type="password" formControlName="motPasse" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.motPasse.errors }"
+               [style.width.px]="350" />
+        <div *ngIf="submitted && f.motPasse.errors" class="invalid-feedback">
+          <div *ngIf="f.motPasse.errors.required">Le mot de passe est requis</div>
+          <div *ngIf="f.motPasse.errors.minlength">Le mot de passe doit être d'au moins 6 caractères</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Création compte
+        </button>
+        <a routerLink="../connexion" class="btn btn-link">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
