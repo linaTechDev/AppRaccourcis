@@ -51,7 +51,7 @@ public class ServiceUtilisateur {
   public boolean validateAuthentification(String nomUtilisateur, String motPasse) {
     Utilisateur utilisateur = findByNomUtilisateur(nomUtilisateur).toUtilisateur();
     if (utilisateur != null) {
-      return motPasse == utilisateur.getMotPasse();
+      return motPasse.equals(utilisateur.getMotPasse());
     }
     return false;
   }
