@@ -12,12 +12,12 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="MotDePasse">Mot de passe</label>
-        <input type="password" formControlName="MotDePasse" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.MotDePasse.errors }"
+        <label for="motPasse">Mot de passe</label>
+        <input type="password" formControlName="motPasse" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.motPasse.errors }"
                [style.width.px]="350" />
-        <div *ngIf="submitted && f.MotDePasse.errors" class="invalid-feedback">
-          <div *ngIf="f.MotDePasse.errors.required">Le mot de passe est requis</div>
+        <div *ngIf="submitted && f.motPasse.errors" class="invalid-feedback">
+          <div *ngIf="f.motPasse.errors.required">Le mot de passe est requis</div>
         </div>
       </div>
       <div class="form-group">

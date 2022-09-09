@@ -27,7 +27,7 @@ export class ConnexionComponent implements OnInit {
   ngOnInit() {
     this.utilisateur = this.formBuilder.group({
       nomUtilisateur: ['', Validators.required],
-      MotDePasse: ['', Validators.required]
+      motPasse: ['', Validators.required]
     });
 
     // get return url from route parameters or default to '/'
