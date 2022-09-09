@@ -1,6 +1,6 @@
 package com.lina.spring.models;
 
-import com.lina.spring.dtos.*;
+import com.lina.spring.dtos.UtilisateurDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.HashSet;
@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @Table(name = "utilisateur",
-       uniqueConstraints = {
-          @UniqueConstraint(columnNames = "nomUtilisateur")
+  uniqueConstraints = {
+    @UniqueConstraint(columnNames = "nomUtilisateur")
   })
 public class Utilisateur {
   @Id

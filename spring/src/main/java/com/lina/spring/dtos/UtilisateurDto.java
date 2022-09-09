@@ -1,6 +1,6 @@
 package com.lina.spring.dtos;
 
-import com.lina.spring.models.*;
+import com.lina.spring.models.Utilisateur;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
