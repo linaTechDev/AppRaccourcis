@@ -40,4 +40,19 @@ export class ServiceComponent {
 
     return this.http.post(`${environment.apiUrl}/utilisateur/creation`, jSonUser, httpOptions);
   }
+
+  connexion(user: Utilisateur) {
+    console.log(`${environment.apiUrl}/utilisateur/connexion`);
+
+    let jSonUser:string = JSON.stringify(user);
+    console.log(jSonUser);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+
+    return this.http.post(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
+  }
 }

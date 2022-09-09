@@ -5,6 +5,7 @@ import {Utilisateur} from "../../model/Utilisateur";
 import { HttpClient } from '@angular/common/http';
 import {ServiceComponent} from "../service/service.component";
 import {first} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: 'creation.component.html',
@@ -18,7 +19,8 @@ export class CreationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private service: ServiceComponent
+    private service: ServiceComponent,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class CreationComponent implements OnInit {
 
           console.log('ok:', data);
           this.loading = false;
+            this.router.navigate(['/accueil']).then(() => "Erreur");
 
         },
           (error: any) => {
