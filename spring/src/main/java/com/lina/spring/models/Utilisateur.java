@@ -1,5 +1,6 @@
 package com.lina.spring.models;
 
+import com.lina.spring.dtos.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.HashSet;
@@ -44,7 +45,15 @@ public class Utilisateur {
     this.motPasse = motPasse;
   }
 
-
+  public UtilisateurDto toUtilisateurDto() {
+    return new UtilisateurDto(
+      String.valueOf(id),
+      prenom,
+      nomFamille,
+      nomUtilisateur,
+      motPasse
+    );
+  }
 
   @Override
   public String toString() {
