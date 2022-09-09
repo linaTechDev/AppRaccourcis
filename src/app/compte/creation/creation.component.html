@@ -8,7 +8,7 @@
                [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
                [style.width.px]="350" />
         <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-          <div *ngIf="f.prenom.errors.required">Le prenom est requis</div>
+          <div *ngIf="f.prenom.errors.required">Le prénom est requis</div>
         </div>
       </div>
       <div class="form-group">
