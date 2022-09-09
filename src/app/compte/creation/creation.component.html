@@ -1,7 +1,7 @@
 <div class="card fondCreation">
   <h1 class="card-header headerCreation">Création compte</h1>
   <div class="card-body">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" [style.marginLeft.px]="200">
+    <form [formGroup]="utilisateur" (ngSubmit)="onSubmit()" [style.marginLeft.px]="200">
       <div class="form-group">
         <label for="prenom">Prénom</label>
         <input type="text" formControlName="prenom" class="form-control"
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
+        <button type="submit" [disabled]="loading" class="btn btn-primary">
           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
           Création compte
         </button>
