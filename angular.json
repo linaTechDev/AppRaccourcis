@@ -21,8 +21,12 @@
             "assets": [
               "src/img/favicon.ico",
               "src/img/logoApp.ico",
-              "src/img/fondConnexion",
-              "src/img/fondCreation",
+              "src/img/fondConnexion.png",
+              "src/img/fondCreation.png",
+              "src/img/lock.dark.png",
+              "src/img/profile.png",
+              "src/img/user.dark.png",
+              "src/img/fondAccueil.png",
               "src/assets"
             ],
             "styles": [

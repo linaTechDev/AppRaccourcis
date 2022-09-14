@@ -15,3 +15,28 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.saisie {
+  width: 350px;
+  background-color: #E7B97D;
+  color: white;
+  border-radius: 25px;
+}
+
+.saisie-user {
+  background: url("../../../img/user.dark.png") no-repeat scroll 7px 7px;
+  padding-left:35px;
+  background-size: 20px;
+}
+
+.saisie-psw {
+  background: url("../../../img/lock.dark.png") no-repeat scroll 7px 7px;
+  padding-left:35px;
+  background-size: 20px;
+}
+
+.saisie-profile {
+  background: url("../../../img/profile.png") no-repeat scroll 7px 7px;
+  padding-left:35px;
+  background-size: 20px;
+}

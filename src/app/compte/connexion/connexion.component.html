@@ -1,21 +1,23 @@
 <div class="card fondConnexion" >
   <h1 class="card-header headerConnexion">Connexion</h1>
   <div class="card-body">
-    <form [formGroup]="utilisateur" (ngSubmit)="onSubmit()" [style.marginLeft.px]="200">
+    <form [formGroup]="utilisateur" (ngSubmit)="onSubmit()" [style.marginLeft.px]="250">
       <div class="form-group">
         <label for="nomUtilisateur">Nom d'utilisateur</label>
-        <input type="text" formControlName="nomUtilisateur" class="form-control"
+        <input type="text" formControlName="nomUtilisateur" id="nomUtilisateur"
+               placeholder="Nom d'utilisateur" class="form-control saisie saisie-user"
                [ngClass]="{ 'is-invalid': submitted && f.nomUtilisateur.errors }"
-               [style.width.px]="350" />
+        />
         <div *ngIf="submitted && f.nomUtilisateur.errors" class="invalid-feedback">
           <div *ngIf="f.nomUtilisateur.errors.required">Le nom d'utilisateur est requis</div>
         </div>
       </div>
       <div class="form-group">
         <label for="motPasse">Mot de passe</label>
-        <input type="password" formControlName="motPasse" class="form-control"
+        <input type="password" formControlName="motPasse" id="motPasse"
+               placeholder="Mot de passe" class="form-control saisie saisie-psw"
                [ngClass]="{ 'is-invalid': submitted && f.motPasse.errors }"
-               [style.width.px]="350" />
+        />
         <div *ngIf="submitted && f.motPasse.errors" class="invalid-feedback">
           <div *ngIf="f.motPasse.errors.required">Le mot de passe est requis</div>
         </div>
