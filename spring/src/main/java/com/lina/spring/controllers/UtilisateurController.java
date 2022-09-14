@@ -1,7 +1,7 @@
 package com.lina.spring.controllers;
 
+import com.lina.spring.utilJwt.UtilJwt;
 import com.lina.spring.dtos.UtilisateurDto;
-import com.lina.spring.reponse.MessageReponse;
 import com.lina.spring.service.ServiceUtilisateur;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,11 +22,20 @@ public class UtilisateurController {
     if (serviceUtilisateur.existsByNomUtilisateur(utilisateurDto.getNomUtilisateur())) {
       return ResponseEntity
         .badRequest()
-        .body(new MessageReponse("Erreur: le nom d'utlisateur est déjà pris"));
+        .body("le nom d'utlisateur est déjà pris");
     }
 
-    return new ResponseEntity<>(serviceUtilisateur.saveUtilisateur(utilisateurDto.toUtilisateur()),
-      HttpStatus.CREATED);
+    try {
+      utilisateurDto = serviceUtilisateur.saveUtilisateur(utilisateurDto.toUtilisateur());
+      return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body("L'utilisateur à été créé");
+    }
+    catch(Exception e) {
+      return ResponseEntity
+        .badRequest()
+        .body(e.getMessage());
+    }
   }
 
   @PostMapping("/connexion")
@@ -34,9 +43,35 @@ public class UtilisateurController {
     if (!serviceUtilisateur.existsByNomUtilisateur(utilisateurDto.getNomUtilisateur())) {
       return ResponseEntity
         .badRequest()
-        .body(new MessageReponse("Erreur: le nom d'utlisateur n'existe pas"));
+        .body("le nom d'utlisateur n'existe pas");
     }
-    return new ResponseEntity<>(serviceUtilisateur.validateAuthentification(utilisateurDto.getNomUtilisateur(), utilisateurDto.getMotPasse()),
-      HttpStatus.ACCEPTED);
+
+    try {
+      Boolean valide = serviceUtilisateur.validateAuthentification(utilisateurDto.getNomUtilisateur(), utilisateurDto.getMotPasse());
+      if (valide) {
+
+        utilisateurDto = serviceUtilisateur.findByNomUtilisateur(utilisateurDto.getNomUtilisateur());
+
+        String jeton = UtilJwt.genereJWT(
+          utilisateurDto.getNomUtilisateur(),
+          utilisateurDto.getPrenom(),
+          utilisateurDto.getNomFamille()
+        );
+
+        return ResponseEntity
+          .accepted()
+          .body(jeton);
+
+      } else {
+        return ResponseEntity
+          .badRequest()
+          .body("Mot de passe invalide");
+      }
+    }
+    catch(Exception e) {
+      return ResponseEntity
+        .badRequest()
+        .body(e.getMessage());
+    }
   }
 }

@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import {Utilisateur} from "../../model/Utilisateur";
+//import * as moment from "moment";
 
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +54,6 @@ export class ServiceComponent {
       })
     };
 
-    return this.http.post(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
+    return this.http.post<Utilisateur>(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
   }
 }
