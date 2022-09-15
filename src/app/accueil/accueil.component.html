@@ -1,3 +1,14 @@
 <div class="fondAccueil">
-  <h1 class="headerAccueil">Accueil Page</h1>
+  <div class="headerAccueil">
+    <span>{{nomPrenom}}</span>
+    <img class="logout-user" src="img/logout.ico" (click)="this.logoutUser()">
+  </div>
+
+  <div class="signetAccueil">
+    <div *ngFor = "let item of tokens" class="signetItem">
+      <a [attr.href]="item.url" class="signetUrl" target="_blank">
+        {{item.nom}}
+      </a>
+    </div>
+  </div>
 </div>

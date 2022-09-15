@@ -3,9 +3,6 @@ package com.lina.spring.service;
 import com.lina.spring.dtos.UtilisateurDto;
 import com.lina.spring.models.Utilisateur;
 import com.lina.spring.repository.UtilisateurRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -55,11 +52,4 @@ public class ServiceUtilisateur {
     }
     return false;
   }
-
-  /*@Override
-  public UserDetails loadUserByUsername(String nomUtilisateur) throws UsernameNotFoundException {
-    Utilisateur utilisateur = utilisateurRepository.findByNomUtilisateur(nomUtilisateur)
-      .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur: " + nomUtilisateur));
-    return ;
-  }*/
 }

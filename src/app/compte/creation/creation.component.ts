@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {environment} from "../../../environments/environment";
-import {Utilisateur} from "../../model/Utilisateur";
 import { HttpClient } from '@angular/common/http';
 import {ServiceComponent} from "../service/service.component";
 import {first} from "rxjs";
@@ -15,6 +13,7 @@ export class CreationComponent implements OnInit {
   utilisateur!: FormGroup;
   loading = false;
   submitted = false;
+  errorMessage!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,10 +24,10 @@ export class CreationComponent implements OnInit {
 
   ngOnInit() {
     this.utilisateur = this.formBuilder.group({
-      prenom: ['', Validators.required],
-      nomFamille: ['', Validators.required],
-      nomUtilisateur: ['', Validators.required],
-      motPasse: ['', [Validators.required, Validators.minLength(6)]]
+      prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      nomFamille: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      nomUtilisateur: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      motPasse: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(120)]]
     });
   }
 
@@ -47,16 +46,17 @@ export class CreationComponent implements OnInit {
     this.service.creation(this.utilisateur.value)
       .pipe(first())
       .subscribe(
-          (data: any) => {
+        (data: any) => {
 
-          console.log('ok:', data);
+          console.log('success:', data);
           this.loading = false;
-            this.router.navigate(['/accueil']).then(() => "Erreur");
+          this.router.navigate(['/compte/connexion']).then(() => "Erreur");
 
         },
-          (error: any) => {
+        (error: any) => {
 
           console.log('error:', error);
+          this.errorMessage = error.error;
           this.loading = false;
         });
 

@@ -5,50 +5,64 @@
       <div class="form-group">
         <label for="prenom">Prénom</label>
         <input type="text" formControlName="prenom" id="prenom"
+               required minlength="2" maxlength="50"
                placeholder="Prénom" class="form-control saisie saisie-profile"
                [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
         />
         <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
           <div *ngIf="f.prenom.errors.required">Le prénom est requis</div>
+          <div *ngIf="f.prenom.errors.minlength">Le prénom doit être d'au moins 2 caractères</div>
+          <div *ngIf="f.prenom.errors.maxlength">Le prénom doit être d'au plus 50 caractères</div>
         </div>
       </div>
       <div class="form-group">
         <label for="nomFamille">Nom de famille</label>
         <input type="text" formControlName="nomFamille" id="nomFamille"
+               required minlength="2" maxlength="50"
                placeholder="Nom de famille" class="form-control saisie saisie-profile"
                [ngClass]="{ 'is-invalid': submitted && f.nomFamille.errors }"
         />
         <div *ngIf="submitted && f.nomFamille.errors" class="invalid-feedback">
           <div *ngIf="f.nomFamille.errors.required">Le nom de famille est requis</div>
+          <div *ngIf="f.nomFamille.errors.minlength">Le nom de famille doit être d'au moins 2 caractères</div>
+          <div *ngIf="f.nomFamille.errors.maxlength">Le nom de famille doit être d'au plus 50 caractères</div>
         </div>
       </div>
       <div class="form-group">
         <label for="nomUtilisateur">Nom d'utilisateur</label>
         <input type="text" formControlName="nomUtilisateur" id="nomUtilisateur"
+               required minlength="3" maxlength="20"
                placeholder="Nom d'utilisateur" class="form-control saisie saisie-user"
                [ngClass]="{ 'is-invalid': submitted && f.nomUtilisateur.errors }"
         />
         <div *ngIf="submitted && f.nomUtilisateur.errors" class="invalid-feedback">
           <div *ngIf="f.nomUtilisateur.errors.required">Le nom d'utilisateur est requis</div>
+          <div *ngIf="f.nomUtilisateur.errors.minlength">Le nom d'utilisateur doit être d'au moins 3 caractères</div>
+          <div *ngIf="f.nomUtilisateur.errors.maxlength">Le nom d'utilisateur doit être d'au plus 20 caractères</div>
         </div>
       </div>
       <div class="form-group">
         <label for="motPasse">Mot de passe</label>
         <input type="password" formControlName="motPasse" id="motPasse"
+               required minlength="6" maxlength="120"
                placeholder="Mot de passe" class="form-control saisie saisie-psw"
                [ngClass]="{ 'is-invalid': submitted && f.motPasse.errors }"
         />
         <div *ngIf="submitted && f.motPasse.errors" class="invalid-feedback">
           <div *ngIf="f.motPasse.errors.required">Le mot de passe est requis</div>
           <div *ngIf="f.motPasse.errors.minlength">Le mot de passe doit être d'au moins 6 caractères</div>
+          <div *ngIf="f.motPasse.errors.maxlength">Le mot de passe doit être d'au plus 120 caractères</div>
         </div>
       </div>
       <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
+        <button type="submit" [disabled]="loading" class="btn btn-primary">
           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
           Création compte
         </button>
         <a routerLink="../connexion" class="btn btn-link">Annuler</a>
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <strong>Erreur!</strong> {{errorMessage}}
       </div>
     </form>
   </div>

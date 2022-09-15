@@ -2,29 +2,62 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import {BehaviorSubject, first, Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { environment } from '../../../environments/environment';
-import {Utilisateur} from "../../model/Utilisateur";
-//import * as moment from "moment";
+import {CurrentUser, Utilisateur} from "../../model/Utilisateur";
+import {JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
 
 
 @Injectable({ providedIn: 'root' })
 export class ServiceComponent {
-  private userSubject: BehaviorSubject<Utilisateur>;
-  public user: Observable<Utilisateur>;
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService
   ) {
-    this.userSubject = new BehaviorSubject<Utilisateur>(JSON.parse(<string>localStorage.getItem('user')));
-    this.user = this.userSubject.asObservable();
   }
 
-  public get userValue(): Utilisateur {
-    return this.userSubject.value;
+  isConnected(): Boolean {
+    let jsonCurrentUser = localStorage.getItem('currentUser');
+    if (jsonCurrentUser) {
+      let currentUser = JSON.parse(jsonCurrentUser);
+
+      if (this.jwtHelper.isTokenExpired(currentUser.token)) {
+        localStorage.removeItem('currentUser');
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  tokenUtilisateur(): String {
+    let jsonCurrentUser = localStorage.getItem('currentUser');
+    if (jsonCurrentUser) {
+      let currentUser = JSON.parse(jsonCurrentUser);
+
+      if (this.jwtHelper.isTokenExpired(currentUser.token)) {
+        localStorage.removeItem('currentUser');
+        return "";
+      } else {
+        return currentUser.token;
+      }
+    }
+    return "";
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/compte/connexion']);
+  }
+
+  NomPrenom(): String {
+    let jsonCurrentUser = localStorage.getItem('currentUser');
+    if (jsonCurrentUser) {
+      let currentUser = JSON.parse(jsonCurrentUser);
+      return currentUser.prenom + " " + currentUser.nomFamille;
+    }
+    return "";
   }
 
   creation(user: Utilisateur) {
@@ -35,7 +68,8 @@ export class ServiceComponent {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        'Content-Type':  'application/json',
+        'Accept': '*/*'
       })
     };
 
@@ -50,10 +84,11 @@ export class ServiceComponent {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        'Content-Type':  'application/json',
+        'Accept': '*/*'
       })
     };
 
-    return this.http.post<Utilisateur>(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
+    return this.http.post(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
   }
 }

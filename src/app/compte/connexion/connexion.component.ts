@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {first} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {Utilisateur} from "../../model/Utilisateur";
-import { HttpClient } from '@angular/common/http';
 import {ServiceComponent} from "../service/service.component";
+import {CurrentUser} from "../../model/Utilisateur";
 
 @Component({
   templateUrl: 'connexion.component.html',
   styleUrls: ['connexion.component.css']
 })
+
 export class ConnexionComponent implements OnInit {
   utilisateur!: FormGroup;
   loading = false;
   submitted = false;
   returnUrl!: string;
+  errorMessage!: string;
+  currentUser! : CurrentUser;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,8 +27,8 @@ export class ConnexionComponent implements OnInit {
 
   ngOnInit() {
     this.utilisateur = this.formBuilder.group({
-      nomUtilisateur: ['', Validators.required],
-      motPasse: ['', Validators.required]
+      nomUtilisateur: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      motPasse: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(120)]]
     });
 
     // get return url from route parameters or default to '/'
@@ -50,15 +51,22 @@ export class ConnexionComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: any) => {
+          this.currentUser = {
+            token: data.token,
+            prenom:  data.prenom,
+            nomFamille: data.nomFamille,
+            nomUtilisateur: data.nomUtilisateur
+          }
 
-          console.log('ok:', data);
+          console.log('success:', this.currentUser);
+          localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
           this.loading = false;
           this.router.navigate(['/accueil']).then(() => "Erreur");
-
         },
         (error: any) => {
 
           console.log('error:', error);
+          this.errorMessage = error.error;
           this.loading = false;
         });
   }
