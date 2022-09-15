@@ -1,5 +1,7 @@
 package com.lina.spring.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.lina.spring.utilJwt.UtilJwt;
 import com.lina.spring.dtos.UtilisateurDto;
 import com.lina.spring.service.ServiceUtilisateur;
@@ -15,6 +17,21 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/utilisateur")
 public class UtilisateurController {
+
+  class ConnectedUser {
+    public String token;
+    public String prenom;
+    public String nomFamille;
+    public String nomUtilisateur;
+
+    public ConnectedUser(String token, String prenom, String nomFamille, String nomUtilisateur) {
+      this.token = token;
+      this.prenom = prenom;
+      this.nomFamille = nomFamille;
+      this.nomUtilisateur = nomUtilisateur;
+    }
+  }
+
   private ServiceUtilisateur serviceUtilisateur;
 
   @PostMapping("/creation")
@@ -52,19 +69,23 @@ public class UtilisateurController {
 
         utilisateurDto = serviceUtilisateur.findByNomUtilisateur(utilisateurDto.getNomUtilisateur());
 
-        String jeton = UtilJwt.genereJWT(
+        String token = UtilJwt.genereJWT(
           utilisateurDto.getNomUtilisateur(),
           utilisateurDto.getPrenom(),
           utilisateurDto.getNomFamille()
         );
 
+        ConnectedUser connectedUser = new ConnectedUser(token, utilisateurDto.getPrenom(), utilisateurDto.getNomFamille(), utilisateurDto.getNomUtilisateur());
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonConnectedUser = ow.writeValueAsString(connectedUser);
+
         return ResponseEntity
           .accepted()
-          .body(jeton);
+          .body(jsonConnectedUser);
 
       } else {
         return ResponseEntity
-          .badRequest()
+          .status(HttpStatus.UNAUTHORIZED)
           .body("Mot de passe invalide");
       }
     }

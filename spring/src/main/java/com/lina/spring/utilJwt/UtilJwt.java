@@ -45,7 +45,6 @@ public class UtilJwt {
     return sSecretKey;
   }
 
-  //Sample method to construct a JWT
   public static String genereJWT(String nomUtilisateur, String prenom, String nomFamille) {
 
     SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -83,23 +82,23 @@ public class UtilJwt {
 
 
 
-  public static void TestJetonJwt()  {
+  public static void TestTokenJwt()  {
 
-    System.out.println("Test génération et décodage d'un jeton");
+    System.out.println("Test génération et décodage d'un token");
 
     String nomUtilisateur = "llacroix";
     String prenom = "Lina";
     String nomFamille = "Lacroix";
 
-    String jeton = UtilJwt.genereJWT(
+    String token = UtilJwt.genereJWT(
       nomUtilisateur,
       prenom,
       nomFamille
     );
-    System.out.println("Le jeton est = " + jeton);
+    System.out.println("Le token est = " + token);
 
-    Claims claims = UtilJwt.decodeJWT(jeton);
-    System.out.println("Les infos du jeton sont = " + claims.toString());
+    Claims claims = UtilJwt.decodeJWT(token);
+    System.out.println("Les infos du token sont = " + claims.toString());
 
   }
 }
