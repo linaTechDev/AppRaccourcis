@@ -25,12 +25,12 @@ body, html {
   background-size: cover;
 }
 
-.signetAccueil {
+.raccourcisAccueil {
   margin-left: 50px;
   margin-top: 100px;
 }
 
-.signetItem {
+.raccourcisItem {
   width: 350px;
   background-color: #B29A80;
   font-size: larger;
@@ -40,11 +40,11 @@ body, html {
   color: black;
 }
 
-.signetUrl {
+.raccourcisUrl {
   text-decoration: none;
   color: black;
 }
 
-.signetUrl:hover {
+.raccourcisUrl:hover {
   color: white;
 }
