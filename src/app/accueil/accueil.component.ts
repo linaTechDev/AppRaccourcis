@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ServiceComponent} from "../compte/service/service.component";
-import { Token } from '../model/token';
+import {Token} from "../model/Token";
 
 
 @Component({

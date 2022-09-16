@@ -32,6 +32,18 @@ public class UtilisateurController {
     }
   }
 
+  class CreatedUser {
+    public String prenom;
+    public String nomFamille;
+    public String nomUtilisateur;
+
+    public CreatedUser(String prenom, String nomFamille, String nomUtilisateur) {
+      this.prenom = prenom;
+      this.nomFamille = nomFamille;
+      this.nomUtilisateur = nomUtilisateur;
+    }
+  }
+
   private ServiceUtilisateur serviceUtilisateur;
 
   @PostMapping("/creation")
@@ -44,9 +56,14 @@ public class UtilisateurController {
 
     try {
       utilisateurDto = serviceUtilisateur.saveUtilisateur(utilisateurDto.toUtilisateur());
+
+      CreatedUser createdUser = new CreatedUser(utilisateurDto.getPrenom(), utilisateurDto.getNomFamille(), utilisateurDto.getNomUtilisateur());
+      ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+      String jsonCreatedUser = ow.writeValueAsString(createdUser);
+
       return ResponseEntity
         .status(HttpStatus.CREATED)
-        .body("L'utilisateur à été créé");
+        .body(jsonCreatedUser);
     }
     catch(Exception e) {
       return ResponseEntity
