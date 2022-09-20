@@ -41,4 +41,10 @@ public class WidgetsController {
 
     return serviceWidgets.saveWidgets(widgetsDto.toWidgets());
   }
+
+  @DeleteMapping("/{id}")
+  public void deleteWidgets(@PathVariable long id) {
+    WidgetsDto widgets = serviceWidgets.getWidgets(id);
+    serviceWidgets.deleteWidgets(widgets.toWidgets());
+  }
 }
