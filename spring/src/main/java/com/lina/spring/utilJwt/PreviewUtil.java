@@ -56,7 +56,7 @@ public class PreviewUtil {
     return description;
   }
 
-  private static String getImageUrl(Document document, String linkUrl) {
+  private static String getImageUrl(Document document, String raccourcisUrl) {
     String imageUrl = getMetaTagText(document, "meta[property=og:image]", "content");
     if (isBlank(imageUrl)) {
       imageUrl = getMetaTagText(document, "meta[name=twitter:image]", "content");
@@ -69,7 +69,7 @@ public class PreviewUtil {
     }
     if (!(imageUrl == null || imageUrl.isEmpty() || imageUrl.trim().isEmpty())) {
       if (imageUrl.startsWith("//")) {
-        Boolean isHttps = linkUrl.toLowerCase().startsWith("https");
+        Boolean isHttps = raccourcisUrl.toLowerCase().startsWith("https");
         imageUrl = ((isHttps) ? "https" : "http") + ":" + imageUrl;
       }
     }
@@ -77,7 +77,7 @@ public class PreviewUtil {
     return imageUrl;
   }
 
-  private static String getDomain(Document document, String linkUrl) {
+  private static String getDomain(Document document, String raccourcisUrl) {
     String url = getMetaTagText(document, "base", "href");
     if (isBlank(url)) {
       url = getMetaTagText(document, "link[rel=canonical]", "href");
@@ -86,7 +86,7 @@ public class PreviewUtil {
       url = getMetaTagText(document, "meta[property=og:url]", "content");
     }
     if (isBlank(url)) {
-      url = linkUrl;
+      url = raccourcisUrl;
     }
     String domain = url;
     try {
@@ -97,7 +97,7 @@ public class PreviewUtil {
     return domain;
   }
 
-  private static String getFavIconUrl(Document document, String domain, String linkUrl) {
+  private static String getFavIconUrl(Document document, String domain, String raccourcisUrl) {
     String favIconUrl = getMetaTagText(document, "link[rel=shortcut icon]", "href");
     if (isBlank(favIconUrl)) {
       favIconUrl = getMetaTagText(document, "link[rel=icon]", "href");
@@ -108,7 +108,7 @@ public class PreviewUtil {
     if (isBlank(favIconUrl)) {
       favIconUrl = getMetaTagText(document, "link[rel=apple-touch-icon-precomposed]", "href");
     }
-    Boolean isHttps = linkUrl.toLowerCase().startsWith("https");
+    Boolean isHttps = raccourcisUrl.toLowerCase().startsWith("https");
     if (isBlank(favIconUrl)) {
       favIconUrl = ((isHttps) ? "https" : "http") + "://" + domain + "/favicon.ico";
     }
@@ -133,12 +133,12 @@ public class PreviewUtil {
     return base64Image;
   }
 
-  public static InfoPreviewRaccourcis getInfoPreviewRaccourcis(String linkUrl) throws IOException, InterruptedException {
-    if (!linkUrl.startsWith("http")) {
-      linkUrl = "http://" + linkUrl;
+  public static InfoPreviewRaccourcis getInfoPreviewRaccourcis(String raccourcisUrl) throws IOException, InterruptedException {
+    if (!raccourcisUrl.startsWith("http")) {
+      raccourcisUrl = "http://" + raccourcisUrl;
     }
 
-    Document document = Jsoup.connect(linkUrl)
+    Document document = Jsoup.connect(raccourcisUrl)
       .header("Accept", "*/*")
       .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42")
       .referrer("https://www.google.com")
@@ -148,14 +148,14 @@ public class PreviewUtil {
 
     String title = getTitle(document);
     String description = getDescription(document);
-    String imageUrl = getImageUrl(document, linkUrl);
+    String imageUrl = getImageUrl(document, raccourcisUrl);
     String ogImageAlt = getMetaTagText(document, "meta[property=og:image:alt]", "content");
-    String domain = getDomain(document, linkUrl);
-    String favIconUrl = getFavIconUrl(document, domain, linkUrl);
+    String domain = getDomain(document, raccourcisUrl);
+    String favIconUrl = getFavIconUrl(document, domain, raccourcisUrl);
     String imageBase64 = getBase64Image(imageUrl);
     String favIconBase64 = getBase64Image(favIconUrl);
 
-    return new InfoPreviewRaccourcis(domain, linkUrl, title, description,
+    return new InfoPreviewRaccourcis(domain, raccourcisUrl, title, description,
       imageUrl, ogImageAlt, favIconUrl,
       imageBase64, favIconBase64);
   }

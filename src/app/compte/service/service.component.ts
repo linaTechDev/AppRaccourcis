@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {CurrentUser, Utilisateur} from "../../model/Utilisateur";
-import {JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
+import {Utilisateur} from "../../model/Utilisateur";
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 
 @Injectable({ providedIn: 'root' })
@@ -48,7 +48,7 @@ export class ServiceComponent {
 
   logout() {
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/compte/connexion']);
+    this.router.navigate(['/compte/connexion']).then(() => "Erreur");
   }
 
   NomPrenom(): String {
@@ -91,4 +91,16 @@ export class ServiceComponent {
 
     return this.http.post(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
   }
+
+  getRaccourcisInfo(raccourcisUrl: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.post(`${environment.apiUrl}/preview`, raccourcisUrl, httpOptions);
+  }
+
 }

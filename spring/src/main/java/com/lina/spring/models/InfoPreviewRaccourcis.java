@@ -2,7 +2,9 @@ package com.lina.spring.models;
 
 import com.lina.spring.dtos.InfoPreviewRaccourcisDto;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
 @AllArgsConstructor
 public class InfoPreviewRaccourcis {
   private String domain;

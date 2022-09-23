@@ -1,14 +1,27 @@
 <div class="fondAccueil">
   <div class="headerAccueil">
-    <span>{{nomPrenom}}</span>
+    <span class="nom-prenom">{{nomPrenom}}</span>
     <img class="logout-user" src="img/logout.ico" (click)="this.logoutUser()">
   </div>
 
   <div class="raccourcisAccueil">
-    <div *ngFor = "let item of tokens" class="raccourcisItem">
-      <a [attr.href]="item.url" class="raccourcisUrl" target="_blank">
-        {{item.nom}}
-      </a>
+    <div *ngFor = "let item of raccourcis" class="raccourcisItem">
+      <div class="raccourcisInfos">
+        <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.raccourcisInfo.title}}">
+          <img *ngIf="item.raccourcisInfo.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.raccourcisInfo.favIconBase64}}"/>
+          {{item.nom}}
+        </a>
+      </div>
+      <div *ngIf="item.raccourcisInfo.title" class="raccourcisPreview">
+        <a [attr.href]="item.raccourcisInfo.url" class="raccourcisPreviewRaccourcis" target="_blank" title="{{item.raccourcisInfo.title}}">
+          <img *ngIf="item.raccourcisInfo.imageBase64" class="raccourcisPreviewImage" src="data:;base64, {{item.raccourcisInfo.imageBase64}}" alt="{{item.raccourcisInfo.imageAlt}}" />
+          <div class="raccourcisPreviewDetail">
+            <p class="raccourcisPreviewTitle">{{item.raccourcisInfo.title}}</p>
+            <p *ngIf="item.raccourcisInfo.description" class="raccourcisPreviewDescription">{{item.raccourcisInfo.description}}</p>
+            <p *ngIf="item.raccourcisInfo.domain" class="raccourcisPreviewDomain">{{item.raccourcisInfo.domain}}</p>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </div>

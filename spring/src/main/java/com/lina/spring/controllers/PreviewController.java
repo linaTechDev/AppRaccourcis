@@ -18,10 +18,10 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/preview")
 public class PreviewController {
-  @PostMapping()
-  public ResponseEntity<?> getRaccourcisInfos(@Valid @RequestBody String linkUrl) throws JsonProcessingException {
+  @PostMapping
+  public ResponseEntity<?> getRaccourcisInfos(@Valid @RequestBody String raccourcisUrl) throws JsonProcessingException {
     try {
-      InfoPreviewRaccourcisDto InfoPreviewRaccourcis = PreviewUtil.getInfoPreviewRaccourcis(linkUrl).toInfoPreviewRaccourcisDto();
+      InfoPreviewRaccourcisDto InfoPreviewRaccourcis = PreviewUtil.getInfoPreviewRaccourcis(raccourcisUrl).toInfoPreviewRaccourcisDto();
 
       ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
       String jSonRaccourcisInfos = ow.writeValueAsString(InfoPreviewRaccourcis);

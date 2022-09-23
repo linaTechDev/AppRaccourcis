@@ -1,6 +1,7 @@
 body, html {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 .headerAccueil {
@@ -10,9 +11,14 @@ body, html {
   font-weight: bold;
 }
 
+.nom-prenom {
+  margin-top: 15px;
+  margin-right: 15px;
+}
+
 .logout-user {
-  padding-left:10px;
-  padding-right:10px;
+  margin-top: 15px;
+  margin-right: 15px;
   width: 70px;
 }
 
@@ -27,10 +33,60 @@ body, html {
 
 .raccourcisAccueil {
   margin-left: 50px;
-  margin-top: 100px;
+  margin-top: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 75vh;
+  width: 350px;
+}
+
+.raccourcisAccueil::-webkit-scrollbar {
+  width: 11px;
+}
+.raccourcisAccueil::-webkit-scrollbar-thumb {
+  background: #B29A80;
+  border-radius: 10px;
+}
+.raccourcisAccueil::-webkit-scrollbar-thumb:hover {
+  background: #FFF5CF;
+}
+.raccourcisAccueil::-webkit-scrollbar-thumb:active {
+  background: #B9D4A5;
+}
+.raccourcisAccueil::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+.raccourcisAccueil::-webkit-scrollbar-button
+{
+  border-style: solid;
+  height: 16px;
+  width: 16px;
+}
+.raccourcisAccueil::-webkit-scrollbar-button:vertical:decrement
+{
+  border-width: 0 7px 14px 7px;
+  border-color: transparent transparent #B29A80 transparent;
+}
+.raccourcisAccueil::-webkit-scrollbar-button:vertical:decrement:hover
+{
+  border-color: transparent transparent #FFF5CF transparent;
+}
+.raccourcisAccueil::-webkit-scrollbar-button:vertical:increment
+{
+  border-width: 14px 7px 0 7px;
+  border-color: #B29A80 transparent transparent transparent;
+}
+.raccourcisAccueil::-webkit-scrollbar-button:vertical:increment:hover
+{
+  border-color: #FFF5CF transparent transparent transparent;
 }
 
 .raccourcisItem {
+  width: 350px;
+}
+
+.raccourcisInfos {
   width: 350px;
   background-color: #B29A80;
   font-size: larger;
@@ -43,8 +99,59 @@ body, html {
 .raccourcisUrl {
   text-decoration: none;
   color: black;
+  font-weight: bold;
+
 }
 
 .raccourcisUrl:hover {
   color: white;
+}
+
+.raccourcisIcon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.raccourcisPreview {
+  width: 300px;
+  background-color: #B9D4A5;
+  font-size: medium;
+  margin-top: 10px;
+  padding: 10px;
+  color: black;
+  border-radius: 10px;
+  margin-left: 25px;
+}
+
+.raccourcisPreviewLink {
+  text-decoration: none;
+  color: black;
+}
+
+.raccourcisPreviewImage {
+  width: 100px;
+  float: left;
+  margin-right: 5px
+}
+
+.raccourcisPreviewDetail {
+}
+
+.raccourcisPreviewTitle {
+  font-weight: bold;
+  margin-block-end: 0px;
+}
+
+.raccourcisPreviewTitle:hover {
+  color: #FFF5CF;
+}
+
+.raccourcisPreviewDescription {
+  margin-block-end: 0px;
+}
+
+.raccourcisPreviewDomain {
+  margin-block-end: 0px;
+  color: darkgrey;
+  font-weight: bold;
 }

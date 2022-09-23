@@ -12,7 +12,6 @@ import {CurrentUser} from "../../model/Utilisateur";
 
 export class ConnexionComponent implements OnInit {
   utilisateur!: FormGroup;
-  loading = false;
   submitted = false;
   returnUrl!: string;
   errorMessage!: string;
@@ -46,7 +45,6 @@ export class ConnexionComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
     this.service.connexion(this.utilisateur.value)
       .pipe(first())
       .subscribe(
@@ -60,14 +58,12 @@ export class ConnexionComponent implements OnInit {
 
           console.log('success:', this.currentUser);
           localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-          this.loading = false;
           this.router.navigate(['/accueil']).then(() => "Erreur");
         },
         (error: any) => {
 
           console.log('error:', error);
           this.errorMessage = error.error;
-          this.loading = false;
         });
   }
 }

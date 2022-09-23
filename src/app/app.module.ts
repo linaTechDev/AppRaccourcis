@@ -7,17 +7,21 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {JWT_OPTIONS, JwtHelperService, JwtInterceptor} from "@auth0/angular-jwt";
 import {AccueilComponent} from "./accueil";
 import {ErrorInterceptor} from "./compte/redirection/error.interceptor";
+import {LoaderSpinnerComponent} from "./loader-spinner/loader-spinner.component";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AccueilComponent
+    AccueilComponent,
+    LoaderSpinnerComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    OverlayModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
@@ -25,6 +29,7 @@ import {ErrorInterceptor} from "./compte/redirection/error.interceptor";
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LoaderSpinnerComponent]
 })
 export class AppModule { }

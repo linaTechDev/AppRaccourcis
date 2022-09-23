@@ -9,9 +9,9 @@ import {Router} from "@angular/router";
   templateUrl: 'creation.component.html',
   styleUrls: ['creation.component.css']
 })
+
 export class CreationComponent implements OnInit {
   utilisateur!: FormGroup;
-  loading = false;
   submitted = false;
   errorMessage!: string;
 
@@ -42,14 +42,12 @@ export class CreationComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
     this.service.creation(this.utilisateur.value)
       .pipe(first())
       .subscribe(
         (data: any) => {
 
           console.log('success:', data);
-          this.loading = false;
           this.router.navigate(['/compte/connexion']).then(() => "Erreur");
 
         },
@@ -57,7 +55,6 @@ export class CreationComponent implements OnInit {
 
           console.log('error:', error);
           this.errorMessage = error.error;
-          this.loading = false;
         });
 
   }
