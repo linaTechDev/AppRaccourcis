@@ -3,6 +3,7 @@ package com.lina.spring.models;
 import com.lina.spring.dtos.RaccourcisDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -16,6 +17,10 @@ public class Raccourcis {
   private Long id;
   private String nameSite;
   private String urlSite;
+
+  @ManyToOne
+  @JoinColumn(name = "utilisateur")
+  @ToString.Exclude
   private Utilisateur utilisateur;
 
   public Raccourcis(String nameSite, String urlSite, Utilisateur utilisateur) {
