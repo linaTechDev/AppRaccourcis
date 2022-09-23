@@ -1,7 +1,10 @@
 package com.lina.spring.controllers;
 
 import com.lina.spring.dtos.RaccourcisDto;
+import com.lina.spring.dtos.RaccourcisForm;
+import com.lina.spring.dtos.UtilisateurDto;
 import com.lina.spring.service.ServiceRaccourcis;
+import com.lina.spring.service.ServiceUtilisateur;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +17,18 @@ import java.util.List;
 @RequestMapping("/raccourcis")
 public class RaccourcisController {
   private ServiceRaccourcis serviceRaccourcis;
+  private ServiceUtilisateur serviceUtilisateur;
 
-  @GetMapping
-  public List<RaccourcisDto> getAllRaccourcis() {
-    return serviceRaccourcis.getAllRaccourcis();
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/{nomUtilisateur}")
+  public List<RaccourcisDto> getAllRaccourcisUtilisateur(@PathVariable String nomUtilisateur) {
+    UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(nomUtilisateur);
+    if (utilisateurDto == null) {
+      throw new NullPointerException();
+    }
+    else {
+      return serviceRaccourcis.getAllRaccourcis(utilisateurDto);
+    }
   }
 
   @GetMapping("/{id}")
@@ -27,7 +38,13 @@ public class RaccourcisController {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
-  public RaccourcisDto createRaccourcis(@RequestBody RaccourcisDto raccourcisDto) {
+  public RaccourcisDto createRaccourcis(@RequestBody RaccourcisForm raccourcisForm) {
+    UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(raccourcisForm.getNomUtilisateur());
+    RaccourcisDto raccourcisDto = new RaccourcisDto(
+      null,
+      raccourcisForm.getNameSite(),
+      raccourcisForm.getUrlSite(),
+      utilisateurDto);
     return serviceRaccourcis.saveRaccourcis(raccourcisDto.toRaccourcis());
   }
 

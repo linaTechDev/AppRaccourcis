@@ -12,11 +12,13 @@ public class RaccourcisDto {
   private String id;
   private String nameSite;
   private String urlSite;
+  private UtilisateurDto utilisateur;
 
   public Raccourcis toRaccourcis() {
     final Raccourcis raccourcis = new Raccourcis(
       nameSite,
-      urlSite
+      urlSite,
+      utilisateur.toUtilisateur()
     );
     long oldId;
     try {

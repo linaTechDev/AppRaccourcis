@@ -1,7 +1,9 @@
 package com.lina.spring.service;
 
 import com.lina.spring.dtos.RaccourcisDto;
+import com.lina.spring.dtos.UtilisateurDto;
 import com.lina.spring.models.Raccourcis;
+import com.lina.spring.models.Utilisateur;
 import com.lina.spring.repository.RaccourcisRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +21,14 @@ public class ServiceRaccourcis {
 
   public RaccourcisDto createRaccourcis(
     String nameSite,
-    String urlSite
+    String urlSite,
+    Utilisateur utilisateur
   ) {
     Raccourcis raccourcis = raccourcisRepository.save(
       new Raccourcis(
         nameSite,
-        urlSite
+        urlSite,
+        utilisateur
       )
     );
     return raccourcis.toRaccourcisDto();
@@ -34,8 +38,8 @@ public class ServiceRaccourcis {
     return raccourcisRepository.save(raccourcis).toRaccourcisDto();
   }
 
-  public List<RaccourcisDto> getAllRaccourcis() {
-    List<Raccourcis> raccourcisList = raccourcisRepository.findAll();
+  public List<RaccourcisDto> getAllRaccourcis(UtilisateurDto utilisateurDto) {
+    List<Raccourcis> raccourcisList = raccourcisRepository.getRaccourcisUtilisateur(utilisateurDto.getNomUtilisateur());
     List<RaccourcisDto> raccourcisDtoList = new ArrayList<>();
 
     for (Raccourcis raccourcis : raccourcisList) {

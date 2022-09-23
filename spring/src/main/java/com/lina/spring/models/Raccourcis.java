@@ -16,17 +16,20 @@ public class Raccourcis {
   private Long id;
   private String nameSite;
   private String urlSite;
+  private Utilisateur utilisateur;
 
-  public Raccourcis(String nameSite, String urlSite) {
+  public Raccourcis(String nameSite, String urlSite, Utilisateur utilisateur) {
     this.nameSite = nameSite;
     this.urlSite = urlSite;
+    this.utilisateur = utilisateur;
   }
 
   public RaccourcisDto toRaccourcisDto() {
     return new RaccourcisDto(
       String.valueOf(id),
       nameSite,
-      urlSite
+      urlSite,
+      utilisateur.toUtilisateurDto()
     );
   }
 
