@@ -32,7 +32,10 @@ export class AccueilComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data : any) => {
-          console.log('success', data);
+          for (let item of data) {
+            console.log(item.nameSite, item.urlSite);
+            this.addRaccourcis(item.nameSite, item.urlSite);
+          }
         },
         (error: any) => {
           console.log('failed:', error);
