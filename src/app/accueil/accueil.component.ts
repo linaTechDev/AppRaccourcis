@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ServiceComponent} from "../compte/service/service.component";
 import {Raccourcis} from "../model/Raccourcis";
 import {first} from "rxjs";
@@ -34,7 +34,7 @@ export class AccueilComponent implements OnInit {
         (data : any) => {
           for (let item of data) {
             console.log(item.nameSite, item.urlSite);
-            this.addRaccourcis(item.nameSite, item.urlSite);
+            this.loadRaccourcis(item.nameSite, item.urlSite);
           }
         },
         (error: any) => {
@@ -42,7 +42,15 @@ export class AccueilComponent implements OnInit {
         });
   }
 
-  addRaccourcis(nom:string, url:string) {
+  addRaccourcis() {
+    /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });*/
+  }
+
+  loadRaccourcis(nom:string, url:string) {
     this.service.getRaccourcisInfo(url)
       .pipe(first())
       .subscribe(

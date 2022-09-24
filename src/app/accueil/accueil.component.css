@@ -112,6 +112,10 @@ body, html {
   margin-right: 10px;
 }
 
+.add {
+  margin-left: 400px;
+}
+
 .raccourcisPreview {
   width: 300px;
   background-color: #B9D4A5;
