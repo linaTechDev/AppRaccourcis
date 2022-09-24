@@ -16,42 +16,7 @@ export class AccueilComponent implements OnInit {
 
   constructor(
     private service: ServiceComponent
-  ) {
-    this.addRaccourcis(
-      'Google traduction',
-      'https://translate.google.ca/?sl=fr&tl=en&op=translate'
-    );
-
-    this.addRaccourcis(
-      'Guide étudiant - AL',
-      'https://etudiantcollegial.claurendeau.qc.ca/'
-    );
-
-    this.addRaccourcis(
-      'Devenir architecte',
-      'https://www.studyrama.com/formations/specialites/architecture-urbanisme-paysagisme/en-architecture-le-danger-est-de-penser-que-l-ecole-104298'
-    );
-
-    this.addRaccourcis(
-      'Pixabay: Photos libres de droits & gratuites à télécharger',
-      'https://pixabay.com/fr/photos/'
-    );
-
-    this.addRaccourcis(
-      'Stack Overflow',
-      'https://stackoverflow.com/'
-    );
-
-    this.addRaccourcis(
-      'Trello',
-      'https://trello.com/fr'
-    );
-
-    this.addRaccourcis(
-      'Looka',
-      'https://looka.com/'
-    );
-  }
+  ) {}
 
   ngOnInit() {
     this.nomPrenom = this.service.NomPrenom();
