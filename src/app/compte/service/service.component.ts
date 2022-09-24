@@ -31,6 +31,17 @@ export class ServiceComponent {
     return false;
   }
 
+  getConnectedUtilisateur(): String {
+    let jsonCurrentUser = localStorage.getItem('currentUser');
+    if (jsonCurrentUser) {
+      let currentUser = JSON.parse(jsonCurrentUser);
+      return currentUser.nomUtilisateur;
+    }
+    else {
+      return "";
+    }
+  }
+
   tokenUtilisateur(): String {
     let jsonCurrentUser = localStorage.getItem('currentUser');
     if (jsonCurrentUser) {
@@ -103,4 +114,8 @@ export class ServiceComponent {
     return this.http.post(`${environment.apiUrl}/preview`, raccourcisUrl, httpOptions);
   }
 
+  getRaccourcis() {
+    const nomUtilisateur = this.getConnectedUtilisateur();
+    return this.http.get(`${environment.apiUrl}/raccourcis/`+nomUtilisateur);
+  }
 }

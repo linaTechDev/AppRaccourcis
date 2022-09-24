@@ -20,8 +20,8 @@ public class RaccourcisController {
   private ServiceUtilisateur serviceUtilisateur;
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping
-  public List<RaccourcisDto> getAllRaccourcisUtilisateur(@RequestBody String nomUtilisateur) {
+  @GetMapping("/{nomUtilisateur}")
+  public List<RaccourcisDto> getAllRaccourcisUtilisateur(@PathVariable String nomUtilisateur) {
     UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(nomUtilisateur);
     if (utilisateurDto == null) {
       throw new NullPointerException();
@@ -29,11 +29,6 @@ public class RaccourcisController {
     else {
       return serviceRaccourcis.getAllRaccourcis(utilisateurDto);
     }
-  }
-
-  @GetMapping("/{id}")
-  public RaccourcisDto getRaccourcis(@PathVariable long id) {
-    return serviceRaccourcis.getRaccourcis(id);
   }
 
   @ResponseStatus(HttpStatus.CREATED)

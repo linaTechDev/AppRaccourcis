@@ -20,10 +20,23 @@ export class AccueilComponent implements OnInit {
 
   ngOnInit() {
     this.nomPrenom = this.service.NomPrenom();
+    this.getRaccourcis();
   }
 
   logoutUser() {
     this.service.logout();
+  }
+
+  getRaccourcis() {
+    this.service.getRaccourcis()
+      .pipe(first())
+      .subscribe(
+        (data : any) => {
+          console.log('success', data);
+        },
+        (error: any) => {
+          console.log('failed:', error);
+        });
   }
 
   addRaccourcis(nom:string, url:string) {
