@@ -79,26 +79,4 @@ public class UtilJwt {
       .parseClaimsJws(jwt).getBody();
     return claims;
   }
-
-
-
-  public static void TestTokenJwt()  {
-
-    System.out.println("Test génération et décodage d'un token");
-
-    String nomUtilisateur = "llacroix";
-    String prenom = "Lina";
-    String nomFamille = "Lacroix";
-
-    String token = UtilJwt.genereJWT(
-      nomUtilisateur,
-      prenom,
-      nomFamille
-    );
-    System.out.println("Le token est = " + token);
-
-    Claims claims = UtilJwt.decodeJWT(token);
-    System.out.println("Les infos du token sont = " + claims.toString());
-
-  }
 }

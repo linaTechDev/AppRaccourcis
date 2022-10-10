@@ -1,4 +1,4 @@
-package com.lina.spring.utilJwt;
+package com.lina.spring.service;
 
 import com.lina.spring.models.InfoPreviewRaccourcis;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -11,15 +11,12 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.net.InternetDomainName;
 import org.jsoup.nodes.Element;
-import org.springframework.http.HttpStatus;
 
 import static org.jsoup.internal.StringUtil.isBlank;
 
-public class PreviewUtil {
+public class ServicePreview {
   private static String getTitle(Document document) {
     String title = getMetaTagText(document, "meta[property=og:title]", "content");
     if (isBlank(title)) {
@@ -56,7 +53,7 @@ public class PreviewUtil {
     return description;
   }
 
-  private static String getImageUrl(Document document, String raccourcisUrl) {
+  private static String getImageUrl(Document document, String raccourcisUrl, String domain) {
     String imageUrl = getMetaTagText(document, "meta[property=og:image]", "content");
     if (isBlank(imageUrl)) {
       imageUrl = getMetaTagText(document, "meta[name=twitter:image]", "content");
@@ -68,9 +65,11 @@ public class PreviewUtil {
       imageUrl = getMetaTagText(document, "img", "src");
     }
     if (!(imageUrl == null || imageUrl.isEmpty() || imageUrl.trim().isEmpty())) {
+      Boolean isHttps = raccourcisUrl.toLowerCase().startsWith("https");
       if (imageUrl.startsWith("//")) {
-        Boolean isHttps = raccourcisUrl.toLowerCase().startsWith("https");
         imageUrl = ((isHttps) ? "https" : "http") + ":" + imageUrl;
+      } else if (imageUrl.startsWith("/")) {
+        imageUrl = ((isHttps) ? "https" : "http") + "://" + domain + imageUrl;
       }
     }
 
@@ -115,6 +114,8 @@ public class PreviewUtil {
     if (!(favIconUrl == null || favIconUrl.isEmpty() || favIconUrl.trim().isEmpty())) {
       if (favIconUrl.startsWith("//")) {
         favIconUrl = ((isHttps) ? "https" : "http") + ":" + favIconUrl;
+      } else if (favIconUrl.startsWith("/")) {
+        favIconUrl = ((isHttps) ? "https" : "http") + "://" + domain + favIconUrl;
       }
     }
 
@@ -143,14 +144,14 @@ public class PreviewUtil {
       .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42")
       .referrer("https://www.google.com")
       .ignoreContentType(true)
-      .timeout(5000)
+      .timeout(10000)
       .get();
 
     String title = getTitle(document);
     String description = getDescription(document);
-    String imageUrl = getImageUrl(document, raccourcisUrl);
-    String ogImageAlt = getMetaTagText(document, "meta[property=og:image:alt]", "content");
     String domain = getDomain(document, raccourcisUrl);
+    String imageUrl = getImageUrl(document, raccourcisUrl, domain);
+    String ogImageAlt = getMetaTagText(document, "meta[property=og:image:alt]", "content");
     String favIconUrl = getFavIconUrl(document, domain, raccourcisUrl);
     String imageBase64 = getBase64Image(imageUrl);
     String favIconBase64 = getBase64Image(favIconUrl);

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.lina.spring.dtos.InfoPreviewRaccourcisDto;
-import com.lina.spring.utilJwt.PreviewUtil;
+import com.lina.spring.service.ServicePreview;
 import lombok.AllArgsConstructor;
 import org.jsoup.HttpStatusException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class PreviewController {
   @PostMapping
   public ResponseEntity<?> getRaccourcisInfos(@Valid @RequestBody String raccourcisUrl) throws JsonProcessingException {
     try {
-      InfoPreviewRaccourcisDto InfoPreviewRaccourcis = PreviewUtil.getInfoPreviewRaccourcis(raccourcisUrl).toInfoPreviewRaccourcisDto();
+      InfoPreviewRaccourcisDto InfoPreviewRaccourcis = ServicePreview.getInfoPreviewRaccourcis(raccourcisUrl).toInfoPreviewRaccourcisDto();
 
       ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
       String jSonRaccourcisInfos = ow.writeValueAsString(InfoPreviewRaccourcis);
