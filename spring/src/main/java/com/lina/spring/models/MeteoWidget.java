@@ -1,5 +1,7 @@
 package com.lina.spring.models;
 
+import com.lina.spring.dtos.MeteoWidgetDto;
+import com.lina.spring.dtos.PrevisionMeteoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -35,5 +37,19 @@ public class MeteoWidget {
     this.meteoActuelle = new MeteoActuelle("");
     this.previsionMeteos = new PrevisionMeteo[]{};
     this.errorMessage = errorMessage;
+  }
+
+  public MeteoWidgetDto toMeteoWidgetDto() {
+    PrevisionMeteoDto[] previsionMeteoDtos = null;
+    for(int i = 0; i < previsionMeteos.length; i++) {
+      previsionMeteoDtos[i] = previsionMeteos[i].toPrevisionMeteoDto();
+    }
+    return new MeteoWidgetDto(
+      city,
+      timestamp,
+      meteoActuelle.toMeteoActuelleDto(),
+      previsionMeteoDtos,
+      errorMessage
+    );
   }
 }

@@ -17,16 +17,15 @@ public class MeteoWidgetDto {
   public String errorMessage;
 
   public MeteoWidget toMeteoWidget() {
-    PrevisionMeteo[] previsionMeteoDto = null;
+    PrevisionMeteo[] previsionMeteos = null;
     for(int i = 0; i < previsionMeteoDtos.length; i++) {
-      previsionMeteoDto[i] = previsionMeteoDtos[i].toPrevisionMeteo();
+      previsionMeteos[i] = previsionMeteoDtos[i].toPrevisionMeteo();
     }
-    PrevisionMeteo[] previsionMeteo = previsionMeteoDto;
     final MeteoWidget meteoWidget = new MeteoWidget(
       city,
       timestamp,
       meteoActuelleDto.toMeteoActuelle(),
-      previsionMeteo,
+      previsionMeteos,
       errorMessage
     );
     return meteoWidget;

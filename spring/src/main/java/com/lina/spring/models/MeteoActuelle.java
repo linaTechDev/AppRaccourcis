@@ -1,5 +1,6 @@
 package com.lina.spring.models;
 
+import com.lina.spring.dtos.MeteoActuelleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -33,5 +34,17 @@ public class MeteoActuelle {
     this.temperature = "";
     this.tempRessentis = "";
     this.errorMessage = errorMessage;
+  }
+
+  public MeteoActuelleDto toMeteoActuelleDto() {
+    return new MeteoActuelleDto(
+      meteo,
+      meteoIconUrl,
+      meteoIconBase64,
+      couvNuageuse,
+      temperature,
+      tempRessentis,
+      errorMessage
+    );
   }
 }

@@ -1,5 +1,6 @@
 package com.lina.spring.models;
 
+import com.lina.spring.dtos.PrevisionMeteoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -36,5 +37,18 @@ public class PrevisionMeteo {
     this.haut = "";
     this.bas = "";
     this.errorMessage = errorMessage;
+  }
+
+  public PrevisionMeteoDto toPrevisionMeteoDto() {
+    return new PrevisionMeteoDto(
+      jour,
+      date,
+      prevision,
+      meteoIconUrl,
+      meteoIconBase64,
+      haut,
+      bas,
+      errorMessage
+    );
   }
 }
