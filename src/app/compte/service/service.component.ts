@@ -118,4 +118,26 @@ export class ServiceComponent {
     const nomUtilisateur = this.getConnectedUtilisateur();
     return this.http.get(`${environment.apiUrl}/raccourcis/`+nomUtilisateur);
   }
+
+  fetchActus(actuUrl: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.post(`${environment.apiUrl}/actu/fetch`, actuUrl, httpOptions);
+  }
+
+  getMeteo() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*',
+      })
+    };
+
+    return this.http.get(`${environment.apiUrl}/meteo/get`, httpOptions);
+  }
 }

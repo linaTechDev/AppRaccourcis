@@ -40,7 +40,7 @@ public class MeteoWidget {
   }
 
   public MeteoWidgetDto toMeteoWidgetDto() {
-    PrevisionMeteoDto[] previsionMeteoDtos = null;
+    PrevisionMeteoDto[] previsionMeteoDtos = new PrevisionMeteoDto[previsionMeteos.length];
     for(int i = 0; i < previsionMeteos.length; i++) {
       previsionMeteoDtos[i] = previsionMeteos[i].toPrevisionMeteoDto();
     }

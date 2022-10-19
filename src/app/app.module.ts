@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +9,7 @@ import {AccueilComponent} from "./accueil";
 import {ErrorInterceptor} from "./compte/redirection/error.interceptor";
 import {LoaderSpinnerComponent} from "./loader-spinner/loader-spinner.component";
 import {OverlayModule} from "@angular/cdk/overlay";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,8 @@ import {OverlayModule} from "@angular/cdk/overlay";
     JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    DatePipe,
+    {provide: LOCALE_ID, useValue: 'fr-CA' },
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoaderSpinnerComponent]

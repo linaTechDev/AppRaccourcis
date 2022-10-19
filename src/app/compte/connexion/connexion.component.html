@@ -1,11 +1,11 @@
 <div class="card fondConnexion" >
   <h1 class="card-header headerConnexion">Connexion</h1>
   <div class="card-body">
-    <form [formGroup]="utilisateur" (ngSubmit)="onSubmit()" [style.marginLeft.px]="250">
+    <form autocomplete="off" [formGroup]="utilisateur" (ngSubmit)="onSubmit()" [style.marginLeft.px]="250">
       <div class="form-group">
         <label for="nomUtilisateur">Nom d'utilisateur</label>
         <input type="text" formControlName="nomUtilisateur" id="nomUtilisateur"
-               required minlength="3" maxlength="20"
+               required minlength="3" maxlength="20" autocomplete="new-username"
                placeholder="Nom d'utilisateur" class="form-control saisie saisie-user"
                [ngClass]="{ 'is-invalid': submitted && f.nomUtilisateur.errors }"
         />
@@ -18,7 +18,7 @@
       <div class="form-group">
         <label for="motPasse">Mot de passe</label>
         <input type="password" formControlName="motPasse" id="motPasse"
-               required minlength="6" maxlength="120"
+               required minlength="6" maxlength="120" autocomplete="new-password"
                placeholder="Mot de passe" class="form-control saisie saisie-psw"
                [ngClass]="{ 'is-invalid': submitted && f.motPasse.errors }"
         />
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit"  class="btn btn-primary">
           Connexion
         </button>
         <a routerLink="../creation" class="btn btn-link">Créer compte</a>

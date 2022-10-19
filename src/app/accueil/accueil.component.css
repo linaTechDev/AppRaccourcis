@@ -25,19 +25,57 @@ body, html {
 .fondAccueil {
   display: block;
   height: 100vh;
+  width: auto;
   margin: 0;
   background-image: url("../../img/fondAccueil.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  overflow: auto;
+}
+
+.wrapperAccueil {
+
 }
 
 .raccourcisAccueil {
-  margin-left: 50px;
   margin-top: 20px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 75vh;
-  width: 350px;
+}
+
+.leftAccueil {
+  float: left;
+  margin-left: 15px;
+}
+
+.centerAccueil {
+  float: left;
+  margin-left: 15px;
+  margin-top: 100px;
+}
+
+.rightAccueil {
+  float: right;
+  margin-right: 15px;
+}
+
+@media all and (max-width: 1185px) {
+  .centerAccueil {
+    float: left;
+    margin-left: 15px;
+    margin-top: 50px;
+  }
+}
+
+
+@media all and (max-width: 1590px) {
+  .rightAccueil {
+    float: left;
+    margin-left: 15px;
+    margin-top: 50px;
+  }
 }
 
 .raccourcisAccueil::-webkit-scrollbar {
@@ -83,10 +121,10 @@ body, html {
 }
 
 .raccourcisItem {
-  width: 350px;
+  /*width: 350px;*/
 }
 
-.raccourcisInfos {
+.raccourcisInfo {
   width: 350px;
   background-color: #B29A80;
   font-size: larger;
@@ -100,7 +138,6 @@ body, html {
   text-decoration: none;
   color: black;
   font-weight: bold;
-
 }
 
 .raccourcisUrl:hover {
@@ -110,10 +147,6 @@ body, html {
 .raccourcisIcon {
   width: 20px;
   margin-right: 10px;
-}
-
-.add {
-  margin-left: 400px;
 }
 
 .raccourcisPreview {
@@ -127,7 +160,7 @@ body, html {
   margin-left: 25px;
 }
 
-.raccourcisPreviewLink {
+.raccourcisPreviewInfo {
   text-decoration: none;
   color: black;
 }
@@ -143,7 +176,7 @@ body, html {
 
 .raccourcisPreviewTitle {
   font-weight: bold;
-  margin-block-end: 0px;
+  margin-bottom: 0;
 }
 
 .raccourcisPreviewTitle:hover {
@@ -151,11 +184,433 @@ body, html {
 }
 
 .raccourcisPreviewDescription {
-  margin-block-end: 0px;
+  margin-bottom: 0;
 }
 
 .raccourcisPreviewDomain {
-  margin-block-end: 0px;
+  margin-bottom: 0;
   color: darkgrey;
   font-weight: bold;
+}
+
+.raccourcisActuSource {
+  margin-bottom: 0;
+  color: darkgrey;
+  font-weight: bold;
+}
+
+.raccourcisActuPubDate {
+  margin-bottom: 0;
+  color: darkgrey;
+  text-align: right;
+}
+
+
+.meteoCity {
+  margin-bottom: 0;
+  color: white;
+}
+
+.tRessentie {
+  font-size: 0.6em;
+  width: 28px;
+  display: table-cell;
+  text-transform: uppercase;
+  text-align: right;
+  padding-right: 10px;
+  font-weight: 500;
+  color: #6c757d;
+  vertical-align: middle;
+}
+
+.feelsLikeWrapper {
+  margin: 0 5px;
+  display: table;
+}
+
+.feelsLike {
+  font-size: 1.6em;
+  color: rgba(255,255,255,0.8);
+  display: table-cell;
+}
+
+.meteoTimestamp {
+  margin-bottom: 0;
+  font-size: small;
+  color: #6c757d;
+}
+
+.previsionMeteoColumn {
+  display: block;
+  float: left;
+  text-align: center;
+  width: 100px;
+  background-color: #ACCC94;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+.previsionMeteoRow {
+
+}
+
+.day {
+  margin-top: 10px;
+  font-weight: bold;
+  display: block;
+}
+
+.date {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.prevision {
+  font-size: 0.8em;
+  line-height: 1.2em;
+  color: #333;
+  padding: 0 0.2em;
+  min-height: 50px;
+  display: block;
+}
+
+.meteo {
+  width: 600px;
+}
+
+.previsionMeteoWrapper {
+  height: 300px;
+  padding-left: 50px;
+}
+
+.meteoActuelle {
+  display: flex;
+  flex: 1;
+}
+
+.meteoHeader {
+  padding-left: 200px;
+}
+
+.currentTemp {
+  height: 96px;
+  float: left;
+  font-size: 4.2em;
+  color: #ffea51;
+}
+
+.tempunit_wrapper {
+
+}
+
+.meteoIconWrapper {
+}
+
+.meteoIcon {
+  width: 96px;
+}
+
+.tempunit {
+  height: 30px;
+  display: block;
+  margin-top: 10px;
+  color: #ffea51;
+  font-size: 1.4em;
+}
+
+.meteoCondition {
+  display: block;
+  text-align: left;
+  margin-top: -1em;
+  font-size: 1em;
+  float: left;
+  clear: both;
+  color: #FFFFFF;
+}
+
+.saisie {
+  width: 300px;
+  background-color: #E7B97D;
+  color: white;
+  border-radius: 25px;
+
+  display: block;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
+.saisie-url {
+  background: #E7B97D url("../../img/bookmark.png") no-repeat scroll 7px 7px;
+  padding-left:35px;
+  background-size: 20px;
+}
+
+
+.addicon {
+  margin: 0;
+  padding: 0;
+  width: 50px;
+}
+
+.addIconWrapperRaccourci {
+  position: fixed;
+  bottom: 40px;
+  left: 400px;
+}
+
+.addIconWrapperActu {
+  position: fixed;
+  bottom: 40px;
+  right: 50px;
+}
+
+.itemWrapper {
+  float: left;
+}
+
+.iconWrapper {
+  float: left;
+  margin-left: 5px;
+  margin-top: 30px;
+}
+
+.editicon {
+  width: 20px;
+  display: block;
+}
+
+.deleteicon {
+  width: 20px;
+  display: block;
+  margin-top: 5px;
+}
+
+.savebtn {
+}
+
+.saveicon {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+}
+
+.cancelbtn {
+  margin-left: 60px;
+}
+
+.cancelicon {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+}
+
+
+
+.clock {
+  margin-left: 175px;
+  margin-top: 10px;
+  border-radius: 50%;
+  background: #fff url("../../img/clock.png") no-repeat center;
+  background-size: 88%;
+  height: 20em;
+  padding-bottom: 31%;
+  position: relative;
+  width: 20em;
+}
+
+.clock.simple:after {
+  background: #000;
+  border-radius: 50%;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 5%;
+  height: 5%;
+  z-index: 10;
+}
+
+.minutes-container, .hours-container, .seconds-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hours {
+  background: #000;
+  height: 20%;
+  left: 48.75%;
+  position: absolute;
+  top: 30%;
+  transform-origin: 50% 100%;
+  width: 2.5%;
+}
+
+.minutes {
+  background: #000;
+  height: 40%;
+  left: 49%;
+  position: absolute;
+  top: 10%;
+  transform-origin: 50% 100%;
+  width: 2%;
+}
+
+.seconds {
+  background: red;
+  height: 45%;
+  left: 49.5%;
+  position: absolute;
+  top: 14%;
+  transform-origin: 50% 80%;
+  width: 1%;
+  z-index: 8;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.hours-container {
+  animation: rotate 43200s infinite linear;
+}
+.minutes-container {
+  transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+}
+.seconds-container {
+  transition: transform 0.2s cubic-bezier(.4,2.08,.55,.44);
+}
+
+
+.calendar  {
+  margin-top: 10px;
+  width: 600px;
+}
+
+.calendar-header {
+
+}
+
+.month-indicator {
+  color: white;
+  text-align: center;
+  font-weight: 700;
+  font-size: larger;
+  float: left;
+  margin-left: 70px;
+}
+
+
+.day-of-week,
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-grid  {
+  display:block;
+}
+
+.day-of-week {
+  margin-top: 1.25em;
+}
+
+.day-of-week > * {
+  font-size: medium;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+.date-grid {
+  margin-top: 0.5em;
+}
+
+.date-grid button {
+  position: relative;
+  border: 0;
+  width: 4.5ch;
+  height: 4.5ch;
+  border-radius: 50%;
+  background-color: transparent;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.start {
+  font-size: small;
+  color: grey;
+}
+
+.current {
+  color: black;
+}
+
+#currentDay {
+  background-color: #618a42;
+  color: white;
+  font-weight: bolder;
+}
+
+#currentDay:hover,
+#currentDay:focus {
+  background-color: #0069d9;
+}
+
+#currentDay:active,
+#currentDay.is-selected {
+  background-color: #007bff;
+}
+
+
+.end {
+  font-size: small;
+  color: grey;
+}
+
+.date-grid button:hover,
+.date-grid button:focus {
+  outline: none;
+  background-color: #f0f4f8;
+  color: #334e68;
+}
+
+.date-grid button:active,
+.date-grid button.is-selected {
+  background-color: #c6f7e2;
+  color: #014d40;
+}
+
+.next {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+}
+
+.previous {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+}
+
+.previousbtn {
+  float: left;
+}
+
+.nextbtn {
+  text-align: right;
+  float: right;
 }

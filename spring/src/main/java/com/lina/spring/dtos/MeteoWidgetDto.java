@@ -17,7 +17,7 @@ public class MeteoWidgetDto {
   public String errorMessage;
 
   public MeteoWidget toMeteoWidget() {
-    PrevisionMeteo[] previsionMeteos = null;
+    PrevisionMeteo[] previsionMeteos = new PrevisionMeteo[previsionMeteoDtos.length];
     for(int i = 0; i < previsionMeteoDtos.length; i++) {
       previsionMeteos[i] = previsionMeteoDtos[i].toPrevisionMeteo();
     }

@@ -1,28 +1,284 @@
 <div class="fondAccueil">
   <div class="headerAccueil">
     <span class="nom-prenom">{{nomPrenom}}</span>
-    <img class="logout-user" src="img/logout.ico" (click)="this.logoutUser()">
+    <img class="logout-user" src="img/logout.ico" (click)="this.logoutUser()" title="Déconnexion" alt="logoutUser"/>
   </div>
 
-  <div class="raccourcisAccueil">
-    <div *ngFor = "let item of raccourcis" class="raccourcisItem">
-      <div class="raccourcisInfos">
-        <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.raccourcisInfo.title}}">
-          <img *ngIf="item.raccourcisInfo.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.raccourcisInfo.favIconBase64}}"/>
-          {{item.nom}}
-        </a>
-      </div>
-      <div *ngIf="item.raccourcisInfo.title" class="raccourcisPreview">
-        <a [attr.href]="item.raccourcisInfo.url" class="raccourcisPreviewRaccourcis" target="_blank" title="{{item.raccourcisInfo.title}}">
-          <img *ngIf="item.raccourcisInfo.imageBase64" class="raccourcisPreviewImage" src="data:;base64, {{item.raccourcisInfo.imageBase64}}" alt="{{item.raccourcisInfo.imageAlt}}" />
-          <div class="raccourcisPreviewDetail">
-            <p class="raccourcisPreviewTitle">{{item.raccourcisInfo.title}}</p>
-            <p *ngIf="item.raccourcisInfo.description" class="raccourcisPreviewDescription">{{item.raccourcisInfo.description}}</p>
-            <p *ngIf="item.raccourcisInfo.domain" class="raccourcisPreviewDomain">{{item.raccourcisInfo.domain}}</p>
+
+  <div class="wrapperAccueil">
+
+    <div class="raccourcisAccueil leftAccueil">
+      <div *ngFor = "let item of raccourcis" class="raccourcisItem">
+        <div class="itemWrapper">
+          <div class="raccourcisInfo">
+
+            <div *ngIf="item.nouveau">
+              <form autocomplete="off" [formGroup]="raccourci" (ngSubmit)="raccourciSubmit()">
+                <div class="form-group">
+                  <label for="nameSite">Nom du site</label>
+                  <input type="text" formControlName="nameSite" id="nameSite"
+                         required minlength="3" maxlength="50"
+                         placeholder="Nom du site" class="form-control saisie"
+                         [ngClass]="{ 'is-invalid': submitted && fr.nameSite.errors }"
+                  />
+                  <div *ngIf="submitted && fr.nameSite.errors" class="invalid-feedback">
+                    <div *ngIf="fr.nameSite.errors.required">Le nom du site est requis</div>
+                    <div *ngIf="fr.nameSite.errors.minlength">Le nom du site doit être d'au moins 3 caractères</div>
+                    <div *ngIf="fr.nameSite.errors.maxlength">Le nom du site doit être d'au plus 50 caractères</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="urlSite">Url du site</label>
+                  <input type="url" formControlName="urlSite" id="urlSite"
+                         required minlength="6" maxlength="120"
+                         placeholder="Url du site" class="form-control saisie saisie-url"
+                         [ngClass]="{ 'is-invalid': submitted && fr.urlSite.errors }"
+                  />
+                  <div *ngIf="submitted && fr.urlSite.errors" class="invalid-feedback">
+                    <div *ngIf="fr.urlSite.errors.required">L'url du site est requis</div>
+                    <div *ngIf="fr.urlSite.errors.minlength">L'url du site doit être d'au moins 6 caractères</div>
+                    <div *ngIf="fr.urlSite.errors.maxlength">L'url du site doit être d'au plus 120 caractères</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit"  class="btn btn-primary savebtn">
+                    <img class="saveicon" src="img/checkmark.png" title="Enregistrer" alt="save"/>
+                    Enregistrer
+                  </button>
+                  <button type="button"  class="btn btn-danger cancelbtn" (click)="cancelRaccourci()">
+                    <img class="cancelicon" src="img/cancel.png" title="Annuler" alt="cancel"/>
+                    Annuler
+                  </button>
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                  <strong>Erreur!</strong> {{errorMessage}}
+                </div>
+              </form>
+            </div>
+
+            <div *ngIf="item.loaded">
+              <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.nom}}">
+                <img *ngIf="item.raccourcisInfo.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.raccourcisInfo.favIconBase64}}" title="{{item.raccourcisInfo.domain}}"  alt="raccourcis"/>
+                {{item.nom}}
+              </a>
+            </div>
           </div>
-        </a>
+          <div *ngIf="item.raccourcisInfo.title" class="raccourcisPreview">
+            <a [attr.href]="item.raccourcisInfo.url" class="raccourcisPreviewInfo" target="_blank" title="{{item.raccourcisInfo.title}}">
+              <img *ngIf="item.raccourcisInfo.imageBase64" class="raccourcisPreviewImage" src="data:;base64, {{item.raccourcisInfo.imageBase64}}" alt="{{item.raccourcisInfo.imageAlt}}" title="{{item.raccourcisInfo.title}}" />
+              <div class="raccourcisPreviewDetail">
+                <p class="raccourcisPreviewTitle">{{item.raccourcisInfo.title}}</p>
+                <p *ngIf="item.raccourcisInfo.description" class="raccourcisPreviewDescription">{{item.raccourcisInfo.description}}</p>
+                <p *ngIf="item.raccourcisInfo.domain" class="raccourcisPreviewDomain">{{item.raccourcisInfo.domain}}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div *ngIf="item.loaded" class="iconWrapper">
+          <img *ngIf="item.loaded" class="editicon" src="img/pencil.png" (click)="this.editRaccourci(item)" title="Modification d'un raccourci"  alt="pencil"/>
+          <img *ngIf="item.loaded" class="deleteicon" src="img/delete.png" (click)="this.deleteRaccourci(item)" title="Suppression d'un raccourci"  alt="delete"/>
+        </div>
       </div>
     </div>
+    <div class="addIconWrapperRaccourci">
+      <img class="addicon" src="img/add.png" (click)="this.addRaccourciClick()" title="Ajout d'un raccourci"  alt="meteo"/>
+    </div>
+
+    <div class="raccourcisAccueil centerAccueil">
+      <div class="raccourcisItem">
+        <div>
+          <div *ngIf="meteo.errorMessage;else meteoInfos" class="raccourcisPreview meteo">
+            {{meteo.errorMessage}}
+          </div>
+          <ng-template #meteoInfos>
+            <div class="raccourcisPreview meteo meteoHeader">
+              <h3 class="meteoCity">{{meteo.city}}</h3>
+              <p class="meteoTimestamp">Émis le : {{meteo.timestamp}}</p>
+
+              <div class="meteoActuelle">
+                <span class="currentTemp">{{meteo.meteoActuelle.temperature}}</span>
+                <div class="tempunit_wrapper">
+                  <div class="tempunit">
+                    <span>°C</span>
+                  </div>
+                  <p class="feelsLikeWrapper">
+                    <span class="tRessentie">T. ressentie</span>
+                    <span class="feelsLike">{{meteo.meteoActuelle.tempRessentis}}</span>
+                  </p>
+                </div>
+                <div class="meteoIconWrapper">
+                  <img class="meteoIcon" src="data:;base64, {{meteo.meteoActuelle.meteoIconBase64}}" title="{{meteo.meteoActuelle.meteo}}" alt="meteo"/>
+                </div>
+              </div>
+              <span class="meteoCondition">
+                {{meteo.meteoActuelle.meteo}}
+                {{meteo.meteoActuelle.couvNuageuse}}
+              </span>
+            </div>
+
+            <div class="raccourcisPreview meteo previsionMeteoWrapper">
+              <div *ngFor = "let previsonMeteoDaily of meteo.previsionMeteo" class="previsionMeteoColumn">
+                <div class="previsionMeteoRow">
+                  <span class="day">{{previsonMeteoDaily.day}}</span>
+                  <span class="date">{{previsonMeteoDaily.date}}</span>
+                </div>
+                <div class="previsionMeteoRow">
+                  <span class="prevision">{{previsonMeteoDaily.prevision}}</span>
+                </div>
+                <div class="previsionMeteoRow">
+                  <img *ngIf="previsonMeteoDaily.meteoIconBase64" class="meteoIcon" src="data:;base64, {{previsonMeteoDaily.meteoIconBase64}}" title="{{previsonMeteoDaily.prevision}}"  alt="meteo"/>
+                </div>
+                <div class="previsionMeteoRow">
+                  <span>{{previsonMeteoDaily.haut}}</span>
+                </div>
+                <div class="previsionMeteoRow">
+                  <span>{{previsonMeteoDaily.bas}}</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="raccourcisItem">
+        <div class="clock">
+          <div class="hours-container">
+            <div class="hours"></div>
+          </div>
+          <div class="minutes-container">
+            <div class="minutes"></div>
+          </div>
+          <div class="seconds-container">
+            <div class="seconds"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="raccourcisItem">
+        <div class="raccourcisPreview calendar">
+          <div class="calendar-header">
+            <button href="" type="button" (click)="previous()" class="btn btn-primary previousbtn">
+              <img class="previous" src="img/previous.png" title="Mois précédent" alt="previous"/>
+              Mois précédent
+            </button>
+            <div class="month-indicator" >
+              <time>{{displayDate}}</time>
+            </div>
+            <button href="" type="button" (click)="next()" class="btn btn-primary nextbtn">
+              Mois suivant
+              <img class="next" src="img/next.png" title="Mois suivant" alt="next"/>
+            </button>
+          </div><br>
+          <div class="calendar-grid">
+            <div class="day-of-week">
+              <div *ngFor="let item of weekdays">{{ item }} </div>
+            </div>
+            <div class="date-grid" >
+              <button *ngFor="let item of calendarStart" class="start">{{item}}</button>
+
+              <div *ngIf="calendarCurrentMonthYear; then calendarCurrentMonth else calendarOtherMonth"></div>
+              <ng-template #calendarCurrentMonth>
+                <button *ngFor="let item of calendarCurrentStart" class="current">{{item}}</button>
+                <button *ngFor="let item of calendarCurrentDay" id="currentDay">{{item}}</button>
+                <button *ngFor="let item of calendarCurrentEnd" class="current">{{item}}</button>
+              </ng-template>
+              <ng-template #calendarOtherMonth>
+                <button *ngFor="let item of calendarCurrent" class="current">{{item}}</button>
+              </ng-template>
+
+              <button *ngFor="let item of calendarEnd" class="end">{{item}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="raccourcisAccueil rightAccueil">
+      <div *ngFor = "let item of actus" class="raccourcisItem">
+        <div class="itemWrapper">
+          <div class="raccourcisInfo">
+
+            <div *ngIf="item.nouveau">
+              <form autocomplete="off" [formGroup]="actu" (ngSubmit)="actuSubmit()">
+                <div class="form-group">
+                  <label for="nameActu">Nom du site</label>
+                  <input type="text" formControlName="nameActu" id="nameActu"
+                         required minlength="3" maxlength="50"
+                         placeholder="Nom du site" class="form-control saisie site"
+                         [ngClass]="{ 'is-invalid': submitted && ff.nameActu.errors }"
+                  />
+                  <div *ngIf="submitted && ff.nameActu.errors" class="invalid-feedback">
+                    <div *ngIf="ff.nameActu.errors.required">Le nom du site est requis</div>
+                    <div *ngIf="ff.nameActu.errors.minlength">Le nom du site doit être d'au moins 3 caractères</div>
+                    <div *ngIf="ff.nameActu.errors.maxlength">Le nom du site doit être d'au plus 50 caractères</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="urlActu">Url du site</label>
+                  <input type="url" formControlName="urlActu" id="urlActu"
+                         required minlength="6" maxlength="120"
+                         placeholder="Url du site" class="form-control saisie saisie-url"
+                         [ngClass]="{ 'is-invalid': submitted && ff.urlActu.errors }"
+                  />
+                  <div *ngIf="submitted && ff.urlActu.errors" class="invalid-feedback">
+                    <div *ngIf="ff.urlActu.errors.required">L'url du site est requis</div>
+                    <div *ngIf="ff.urlActu.errors.minlength">L'url du site doit être d'au moins 6 caractères</div>
+                    <div *ngIf="ff.urlActu.errors.maxlength">L'url du site doit être d'au plus 120 caractères</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit"  class="btn btn-primary savebtn">
+                    <img class="saveicon" src="img/checkmark.png" title="Enregistrer" alt="save"/>
+                    Enregistrer
+                  </button>
+                  <button type="button"  class="btn btn-danger cancelbtn" (click)="cancelActu()">
+                    <img class="cancelicon" src="img/cancel.png" title="Annuler" alt="cancel"/>
+                    Annuler
+                  </button>
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                  <strong>Erreur!</strong> {{errorMessage}}
+                </div>
+              </form>
+            </div>
+
+            <div *ngIf="item.loaded">
+              <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.nom}}">
+                <img *ngIf="item.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.favIconBase64}}" title="{{item.nom}}" alt="raccourcis"/>
+                {{item.nom}}
+              </a>
+            </div>
+          </div>
+          <div *ngFor = "let actu of item.actusInfos" class="raccourcisPreview">
+            <a [attr.href]="actu.raccourcis" class="raccourcisPreviewInfo" target="_blank" title="{{actu.title}}">
+              <img *ngIf="actu.imageBase64" class="raccourcisPreviewImage" src="data:;base64, {{actu.imageBase64}}" title="{{actu.title}}"  alt="preview"/>
+              <div class="raccourcisPreviewDetail">
+                <p class="raccourcisPreviewTitle" [innerHTML]="actu.title"></p>
+                <p *ngIf="actu.description" class="raccourcisPreviewDescription" [innerHTML]="actu.description"></p>
+                <div *ngIf="actu.source" class="raccourcisActuSource">
+                  <a [attr.href]="actu.sourceUrl" class="sourceUrl" target="_blank" title="{{actu.source}}">
+                    <img *ngIf="actu.favIconBase64" class="raccourcisIcon" src="data:;base64, {{actu.favIconBase64}}" title="{{actu.source}}"  alt="actu"/>
+                    {{actu.source}}
+                  </a>
+                </div>
+                <div *ngIf="actu.pubDate" class="raccourcisActuPubDate">{{actu.pubDate}}</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div *ngIf="item.loaded" class="iconWrapper">
+          <img *ngIf="item.loaded" class="editicon" src="img/pencil.png" (click)="this.editActu(item)" title="Modification d'une actu"  alt="edit"/>
+          <img *ngIf="item.loaded" class="deleteicon" src="img/delete.png" (click)="this.deleteActu(item)" title="Suppression d'une actu"  alt="actu"/>
+        </div>
+      </div>
+    </div>
+    <div class="addIconWrapperActu">
+      <img class="addicon" src="img/add.png" (click)="this.addActuClick()" title="Ajout d'une actu" alt="add"/>
+    </div>
+
   </div>
-  <img class="RaccourcisIcon add" src="img/addIcon.png" (click)="this.addRaccourcis()">
 </div>
