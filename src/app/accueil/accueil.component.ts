@@ -147,9 +147,9 @@ export class AccueilComponent implements OnInit {
     console.log(item);
 
     if (item.id > 0) {
-      // TODO: mise-à-jour du raccourci dans le backend
+      this.service.updateRaccourcis(item);
     } else {
-      // TODO: ajout du raccourci dans le backend
+      this.service.saveRaccourcis(item)
     }
 
     if (previewARegenerer) {
@@ -197,8 +197,7 @@ export class AccueilComponent implements OnInit {
   }
 
   deleteRaccourci(item: Raccourcis) {
-
-    // TODO: suppression du raccourci dans le backend
+    this.service.deleteRaccourcis(item);
 
     let index =  this.raccourcis.findIndex(x => (x.nom==item.nom) && (x.url==item.url) && (x.id==item.id) );
     if (index > -1) {
@@ -241,9 +240,9 @@ export class AccueilComponent implements OnInit {
     console.log(item);
 
     if (item.id > 0) {
-      // TODO: mise-à-jour de actu dans le backend
+      this.service.updateActu(item);
     } else {
-      // TODO: ajout de actu dans le backend
+      this.service.saveActu(item)
     }
 
     if (previewARegenerer) {
@@ -291,8 +290,7 @@ export class AccueilComponent implements OnInit {
   }
 
   deleteActu(item: FluxNouvelle) {
-
-    // TODO: suppression de actu dans le backend
+    this.service.deleteActu(item);
 
     let index =  this.actus.findIndex(x => (x.nom==item.nom) && (x.url==item.url) && (x.id==item.id) );
     if (index > -1) {

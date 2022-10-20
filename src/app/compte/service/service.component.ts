@@ -5,6 +5,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Utilisateur} from "../../model/Utilisateur";
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {Raccourcis} from "../../model/Raccourcis";
+import {FluxNouvelle} from "../../model/FluxNouvelle";
 
 
 @Injectable({ providedIn: 'root' })
@@ -103,6 +105,8 @@ export class ServiceComponent {
     return this.http.post(`${environment.apiUrl}/utilisateur/connexion`, jSonUser, httpOptions);
   }
 
+
+
   getRaccourcisInfo(raccourcisUrl: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -114,14 +118,46 @@ export class ServiceComponent {
     return this.http.post(`${environment.apiUrl}/previewRaccourcis`, raccourcisUrl, httpOptions);
   }
 
-  saveRaccourcis() {
+  saveRaccourcis(raccourcis: Raccourcis) {
 
+    let jSonRaccourcis:string = JSON.stringify(raccourcis);
+    console.log(jSonRaccourcis);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.post(`${environment.apiUrl}/raccourcis`, jSonRaccourcis, httpOptions);
   }
 
   getRaccourcis() {
     const nomUtilisateur = this.getConnectedUtilisateur();
     return this.http.get(`${environment.apiUrl}/raccourcis/`+nomUtilisateur);
   }
+
+  updateRaccourcis(raccourcis: Raccourcis) {
+
+    let jSonRaccourcis:string = JSON.stringify(raccourcis);
+    console.log(jSonRaccourcis);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.put(`${environment.apiUrl}/raccourcis`+raccourcis.id, jSonRaccourcis, httpOptions);
+  }
+
+  deleteRaccourcis(raccourcis: Raccourcis) {
+    return this.http.delete(`${environment.apiUrl}/raccourcis`+raccourcis.id);
+  }
+
+
 
   getActuInfo(actuUrl: string) {
     const httpOptions = {
@@ -134,9 +170,43 @@ export class ServiceComponent {
     return this.http.post(`${environment.apiUrl}/previewActu`, actuUrl, httpOptions);
   }
 
+  saveActu(fluxNouvelle: FluxNouvelle) {
+
+    let jSonActu:string = JSON.stringify(fluxNouvelle);
+    console.log(jSonActu);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.post(`${environment.apiUrl}/actu`, jSonActu, httpOptions);
+  }
+
   getActu() {
     const nomUtilisateur = this.getConnectedUtilisateur();
     return this.http.get(`${environment.apiUrl}/actu/`+nomUtilisateur);
+  }
+
+  updateActu(fluxNouvelle: FluxNouvelle) {
+
+    let jSonActu:string = JSON.stringify(fluxNouvelle);
+    console.log(jSonActu);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'Accept': '*/*'
+      })
+    };
+
+    return this.http.put(`${environment.apiUrl}/actu`+fluxNouvelle.id, jSonActu, httpOptions);
+  }
+
+  deleteActu(fluxNouvelle: FluxNouvelle) {
+    return this.http.delete(`${environment.apiUrl}/actu`+fluxNouvelle.id);
   }
 
   getMeteo() {
