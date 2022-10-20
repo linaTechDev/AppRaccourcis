@@ -111,7 +111,11 @@ export class ServiceComponent {
       })
     };
 
-    return this.http.post(`${environment.apiUrl}/preview`, raccourcisUrl, httpOptions);
+    return this.http.post(`${environment.apiUrl}/previewRaccourcis`, raccourcisUrl, httpOptions);
+  }
+
+  saveRaccourcis() {
+
   }
 
   getRaccourcis() {
@@ -119,7 +123,7 @@ export class ServiceComponent {
     return this.http.get(`${environment.apiUrl}/raccourcis/`+nomUtilisateur);
   }
 
-  fetchActus(actuUrl: string) {
+  getActuInfo(actuUrl: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'text/plain',
@@ -127,7 +131,12 @@ export class ServiceComponent {
       })
     };
 
-    return this.http.post(`${environment.apiUrl}/actu/fetch`, actuUrl, httpOptions);
+    return this.http.post(`${environment.apiUrl}/previewActu`, actuUrl, httpOptions);
+  }
+
+  getActu() {
+    const nomUtilisateur = this.getConnectedUtilisateur();
+    return this.http.get(`${environment.apiUrl}/actu/`+nomUtilisateur);
   }
 
   getMeteo() {

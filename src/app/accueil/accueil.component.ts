@@ -67,13 +67,9 @@ export class AccueilComponent implements OnInit {
     this.setUpMinuteHands();
 
     this.showCalendar();
+
     this.getRaccourcis()
-
-    this.loadActu('Radio-Canada | Info', 'https://ici.radio-canada.ca/rss/1000524');
-
-    this.loadActu('À la une - Google Actualités', 'https://news.google.com/rss?hl=fr-CA&gl=CA&ceid=CA:fr');
-
-
+    this.getActu()
     this.getMeteo();
 
   }
@@ -90,6 +86,21 @@ export class AccueilComponent implements OnInit {
           for (let item of data) {
             console.log(item.nameSite, item.urlSite);
             this.loadRaccourcis(item.nameSite, item.urlSite);
+          }
+        },
+        (error: any) => {
+          console.log('failed:', error);
+        });
+  }
+
+  getActu() {
+    this.service.getActu()
+      .pipe(first())
+      .subscribe(
+        (data : any) => {
+          for (let item of data) {
+            console.log(item.nameSite, item.urlSite);
+            this.loadActu(item.nameSite, item.urlSite);
           }
         },
         (error: any) => {
@@ -351,22 +362,22 @@ export class AccueilComponent implements OnInit {
 
     } else {
 
-      this.service.fetchActus(url)
+      this.service.getActuInfo(url)
         .pipe(first())
         .subscribe(
           (data: any) => {
             let actusInfos: Array<ActuInfo> = data;
 
-            this.service.getRaccourcisInfo(url)
+            this.service.getActuInfo(url)
               .pipe(first())
               .subscribe(
                 (data: any) => {
                   let actu = new FluxNouvelle(this.actus.length+1, nom, url, data.favIconUrl, data.favIconBase64, actusInfos);
                   this.actus.push(actu);
                   if (data.errorMessage) {
-                    console.log('actusInfos raccourcisInfo failed:', url, data.errorMessage);
+                    console.log('actusInfos failed:', url, data.errorMessage);
                   } else {
-                    console.log('actusInfos raccourcisInfo success:', url);
+                    console.log('actusInfos success:', url);
                   }
                 },
                 (error: any) => {
@@ -385,20 +396,20 @@ export class AccueilComponent implements OnInit {
             console.log('actusInfos failed:', url, error);
             let actusInfos: Array<ActuInfo> = [];
 
-            this.service.getRaccourcisInfo(url)
+            this.service.getActuInfo(url)
               .pipe(first())
               .subscribe(
                 (data: any) => {
                   let actu = new FluxNouvelle(this.actus.length+1, nom, url, data.favIconUrl, data.favIconBase64, actusInfos);
                   this.actus.push(actu);
                   if (data.errorMessage) {
-                    console.log('actusInfos raccourcisInfo failed:', url, data.errorMessage);
+                    console.log('actusInfos failed:', url, data.errorMessage);
                   } else {
-                    console.log('actusInfos raccourcisInfo success:', url);
+                    console.log('actusInfos success:', url);
                   }
                 },
                 (error: any) => {
-                  console.log('actusInfos raccourcisInfo failed:', nom, url, error);
+                  console.log('actusInfos failed:', nom, url, error);
                   let actu = new FluxNouvelle(this.actus.length+1, nom, url, '', '', actusInfos);
                   this.actus.push(actu);
                 });
