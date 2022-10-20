@@ -67,50 +67,11 @@ export class AccueilComponent implements OnInit {
     this.setUpMinuteHands();
 
     this.showCalendar();
+    this.getRaccourcis()
 
-    this.addRaccourcis(
-      'Google',
-      'https://www.google.ca/?hl=fr'
-    );
+    this.loadActu('Radio-Canada | Info', 'https://ici.radio-canada.ca/rss/1000524');
 
-    this.addRaccourcis(
-      'WikipediA',
-      'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal'
-    );
-
-    this.addRaccourcis(
-      'Google traduction',
-      'https://translate.google.ca/?sl=fr&tl=en&op=translate'
-    );
-
-    this.addRaccourcis(
-      'Guide étudiant - AL',
-      'https://etudiantcollegial.claurendeau.qc.ca/'
-    );
-
-    this.addRaccourcis(
-      'Pixabay',
-      'https://pixabay.com/fr/photos/'
-    );
-
-    this.addRaccourcis(
-      'Stack Overflow',
-      'https://stackoverflow.com/'
-    );
-
-    this.addRaccourcis(
-      'Trello',
-      'https://trello.com/fr'
-    );
-
-    this.addRaccourcis(
-      'Looka',
-      'https://looka.com/'
-    );
-
-    this.addActu('Radio-Canada | Info', 'https://ici.radio-canada.ca/rss/1000524');
-
-    this.addActu('À la une - Google Actualités', 'https://news.google.com/rss?hl=fr-CA&gl=CA&ceid=CA:fr');
+    this.loadActu('À la une - Google Actualités', 'https://news.google.com/rss?hl=fr-CA&gl=CA&ceid=CA:fr');
 
 
     this.getMeteo();
@@ -119,6 +80,21 @@ export class AccueilComponent implements OnInit {
 
   logoutUser() {
     this.service.logout();
+  }
+
+  getRaccourcis() {
+    this.service.getRaccourcis()
+      .pipe(first())
+      .subscribe(
+        (data : any) => {
+          for (let item of data) {
+            console.log(item.nameSite, item.urlSite);
+            this.loadRaccourcis(item.nameSite, item.urlSite);
+          }
+        },
+        (error: any) => {
+          console.log('failed:', error);
+        });
   }
 
   // convenience getter for easy access to form fields
@@ -166,7 +142,7 @@ export class AccueilComponent implements OnInit {
     }
 
     if (previewARegenerer) {
-      this.addRaccourcis(
+      this.loadRaccourcis(
         item.nom,
         item.url
       );
@@ -185,7 +161,7 @@ export class AccueilComponent implements OnInit {
     // ne pas ajouter, s'il y a déjà un add ou edit en cours
     if (!this.raccourcis[0].nouveau) {
       this.raccourci.reset();
-      this.addRaccourcis(
+      this.loadRaccourcis(
         '',
         '',
         true
@@ -200,7 +176,7 @@ export class AccueilComponent implements OnInit {
       this.raccourci.reset();
       this.fr.nameSite.setValue(item.nom);
       this.fr.urlSite.setValue(item.url);
-      this.addRaccourcis(
+      this.loadRaccourcis(
         item.nom,
         item.url,
         true,
@@ -260,7 +236,7 @@ export class AccueilComponent implements OnInit {
     }
 
     if (previewARegenerer) {
-      this.addActu(
+      this.loadActu(
         item.nom,
         item.url
       );
@@ -279,7 +255,7 @@ export class AccueilComponent implements OnInit {
     // ne pas ajouter, s'il y a déjà un add ou edit en cours
     if (!this.actus[0].nouveau) {
       this.actu.reset();
-      this.addActu(
+      this.loadActu(
         '',
         '',
         true
@@ -294,7 +270,7 @@ export class AccueilComponent implements OnInit {
       this.actu.reset();
       this.ff.nameActu.setValue(item.nom);
       this.ff.urlActu.setValue(item.url);
-      this.addActu(
+      this.loadActu(
         item.nom,
         item.url,
         true,
@@ -316,7 +292,7 @@ export class AccueilComponent implements OnInit {
 
 
 
-  addRaccourcis(nom: string, url: string, nouveau?: boolean, id?: number) {
+  loadRaccourcis(nom: string, url: string, nouveau?: boolean, id?: number) {
     if (nouveau) {
       let raccourcisInfo = new RaccourcisInfo("", url, "", "", "",
         "", "", "", "");
@@ -362,7 +338,7 @@ export class AccueilComponent implements OnInit {
     }
   }
 
-  addActu(nom: string, url: string, nouveau?: boolean, id?: number) {
+  loadActu(nom: string, url: string, nouveau?: boolean, id?: number) {
     if (nouveau) {
       let actusInfos: Array<ActuInfo> = [];
       let actu = new FluxNouvelle((id) ? id : 0, nom, url, '', '', actusInfos, nouveau);
@@ -441,9 +417,7 @@ export class AccueilComponent implements OnInit {
           if (data.errorMessage) {
             console.log('Meteo failed:', data.errorMessage);
           } else {
-            //console.log('Meteo success:', data.meteoActuelle.meteo);
-            console.log('Meteo success:', this.meteo);
-            console.log('data success:', data);
+            console.log('Meteo success:', data.meteoActuelle.meteo);
           }
         },
         (error: any) => {

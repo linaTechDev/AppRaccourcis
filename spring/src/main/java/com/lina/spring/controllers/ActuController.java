@@ -3,8 +3,10 @@ package com.lina.spring.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.lina.spring.dtos.FluxNouvellesDto;
+import com.lina.spring.dtos.*;
 import com.lina.spring.service.ServiceActu;
+import com.lina.spring.service.ServicePreview;
+import com.lina.spring.service.ServiceUtilisateur;
 import lombok.AllArgsConstructor;
 import org.jsoup.HttpStatusException;
 import org.springframework.http.HttpStatus;
@@ -20,38 +22,66 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/actu")
 public class ActuController {
-  @PostMapping("/fetch")
-  public ResponseEntity<?> fetchActu(@Valid @RequestBody String actuUrl) throws JsonProcessingException {
-    try {
-      Integer actuLimit = 3;
-      List<FluxNouvellesDto> actus = ServiceActu.actuFetcher(actuUrl, actuLimit);
+  private ServiceActu serviceActu;
+  private ServiceUtilisateur serviceUtilisateur;
 
-      ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-      String jSonActus = ow.writeValueAsString(actus);
-
-      return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(jSonActus);
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/{nomUtilisateur}")
+  public List<FluxNouvellesDto> getAllFluxNouvellesUtilisateur(@PathVariable String nomUtilisateur) {
+    UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(nomUtilisateur);
+    if (utilisateurDto == null) {
+      throw new NullPointerException();
     }
-    catch(HttpStatusException e) {
-      List<FluxNouvellesDto> actus = new ArrayList<>();
-      actus.add(new FluxNouvellesDto(
-        HttpStatus.valueOf(e.getStatusCode()).name() +
-          " (" + e.getStatusCode() + ")" +
-          " : " + ((e.getCause() == null) ? e.getMessage() : e.getCause().getMessage())
-      ));
-
-      ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-      String jSonActus = ow.writeValueAsString(actus);
-
-      return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(jSonActus);
+    else {
+      return serviceActu.getAllFluxNouvelles(utilisateurDto);
     }
-    catch(Exception e) {
-      return ResponseEntity
-        .badRequest()
-        .body(e.getMessage());
-    }
+  }
+
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
+  public FluxNouvellesDto createFluxNouvelles(@RequestBody FluxNouvellesForm fluxNouvellesForm) {
+    UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(fluxNouvellesForm.getNomUtilisateur());
+    FluxNouvellesDto fluxNouvellesDto = new FluxNouvellesDto(
+      null,
+      fluxNouvellesForm.getTitle(),
+      fluxNouvellesForm.getRaccourcis(),
+      fluxNouvellesForm.getPubDate(),
+      fluxNouvellesForm.getDescription(),
+      fluxNouvellesForm.getSource(),
+      fluxNouvellesForm.getSourceUrl(),
+      fluxNouvellesForm.getImageUrl(),
+      fluxNouvellesForm.getImageBase64(),
+      fluxNouvellesForm.getFavIconUrl(),
+      fluxNouvellesForm.getFavIconBase64(),
+      fluxNouvellesForm.getErrorMessage(),
+      utilisateurDto
+    );
+    return serviceActu.saveFluxNouvelles(fluxNouvellesDto.toFluxNouvelles());
+  }
+
+  @PutMapping("/{id}")
+  public FluxNouvellesDto updateFluxNouvelles(@PathVariable long id,
+                                              @RequestBody FluxNouvellesDto fluxNouvellesDtoDetail) {
+    FluxNouvellesDto fluxNouvelles = serviceActu.getFluxNouvelles(id);
+
+    fluxNouvelles.setTitle(fluxNouvellesDtoDetail.getTitle());
+    fluxNouvelles.setRaccourcis(fluxNouvellesDtoDetail.getRaccourcis());
+    fluxNouvelles.setPubDate(fluxNouvellesDtoDetail.getPubDate());
+    fluxNouvelles.setDescription(fluxNouvellesDtoDetail.getDescription());
+    fluxNouvelles.setSource(fluxNouvellesDtoDetail.getSource());
+    fluxNouvelles.setSourceUrl(fluxNouvellesDtoDetail.getSourceUrl());
+    fluxNouvelles.setImageUrl(fluxNouvellesDtoDetail.getImageUrl());
+    fluxNouvelles.setImageBase64(fluxNouvellesDtoDetail.getImageBase64());
+    fluxNouvelles.setFavIconUrl(fluxNouvellesDtoDetail.getFavIconUrl());
+    fluxNouvelles.setFavIconBase64(fluxNouvellesDtoDetail.getFavIconBase64());
+    fluxNouvelles.setErrorMessage(fluxNouvellesDtoDetail.getErrorMessage());
+
+    return serviceActu.saveFluxNouvelles(fluxNouvelles.toFluxNouvelles());
+  }
+
+  @DeleteMapping("/{id}")
+  public void deleteFluxNouvelles(@PathVariable long id) {
+    FluxNouvellesDto fluxNouvelles = serviceActu.getFluxNouvelles(id);
+    serviceActu.deleteFluxNouvelles(fluxNouvelles.toFluxNouvelles());
   }
 }

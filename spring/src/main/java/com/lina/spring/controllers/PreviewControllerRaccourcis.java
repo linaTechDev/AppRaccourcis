@@ -16,8 +16,8 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/preview")
-public class PreviewController {
+@RequestMapping("/previewRaccourcis")
+public class PreviewControllerRaccourcis {
   @PostMapping
   public ResponseEntity<?> getRaccourcisInfos(@Valid @RequestBody String raccourcisUrl) throws JsonProcessingException {
     try {

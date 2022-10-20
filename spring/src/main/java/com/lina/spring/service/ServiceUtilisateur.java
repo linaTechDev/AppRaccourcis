@@ -1,6 +1,7 @@
 package com.lina.spring.service;
 
 import com.lina.spring.dtos.UtilisateurDto;
+import com.lina.spring.models.FluxNouvelles;
 import com.lina.spring.models.Raccourcis;
 import com.lina.spring.models.Utilisateur;
 import com.lina.spring.repository.UtilisateurRepository;
@@ -11,11 +12,13 @@ public class ServiceUtilisateur {
 
   private UtilisateurRepository utilisateurRepository;
   private ServiceRaccourcis serviceRaccourcis;
+  private ServiceActu serviceActu;
 
   public ServiceUtilisateur(UtilisateurRepository utilisateurRepository,
-                            ServiceRaccourcis serviceRaccourcis) {
+                            ServiceRaccourcis serviceRaccourcis, ServiceActu serviceActu) {
     this.utilisateurRepository = utilisateurRepository;
     this.serviceRaccourcis = serviceRaccourcis;
+    this.serviceActu = serviceActu;
   }
 
   public UtilisateurDto saveUtilisateur(
@@ -68,6 +71,18 @@ public class ServiceUtilisateur {
     serviceRaccourcis.saveRaccourcis(new Raccourcis(
       "Guide étudiant - AL",
       "https://etudiantcollegial.claurendeau.qc.ca/",
+      utilisateurDto.toUtilisateur()
+    ));
+
+    serviceActu.saveFluxNouvelles(new FluxNouvelles(
+      "Radio-Canada | Info",
+      "https://ici.radio-canada.ca/rss/1000524",
+      utilisateurDto.toUtilisateur()
+    ));
+
+    serviceActu.saveFluxNouvelles(new FluxNouvelles(
+      "À la une - Google Actualités",
+      "https://news.google.com/rss?hl=fr-CA&gl=CA&ceid=CA:fr",
       utilisateurDto.toUtilisateur()
     ));
     return utilisateurDto;
