@@ -57,9 +57,9 @@
             </div>
 
             <div *ngIf="item.loaded">
-              <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.nom}}">
+              <a [attr.href]="item.urlSite" class="raccourcisUrl" target="_blank" title="{{item.nameSite}}">
                 <img *ngIf="item.raccourcisInfo.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.raccourcisInfo.favIconBase64}}" title="{{item.raccourcisInfo.domain}}"  alt="raccourcis"/>
-                {{item.nom}}
+                {{item.nameSite}}
               </a>
             </div>
           </div>
@@ -247,9 +247,9 @@
             </div>
 
             <div *ngIf="item.loaded">
-              <a [attr.href]="item.url" class="raccourcisUrl" target="_blank" title="{{item.nom}}">
-                <img *ngIf="item.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.favIconBase64}}" title="{{item.nom}}" alt="raccourcis"/>
-                {{item.nom}}
+              <a [attr.href]="item.urlSite" class="raccourcisUrl" target="_blank" title="{{item.nameSite}}">
+                <img *ngIf="item.favIconBase64" class="raccourcisIcon" src="data:;base64, {{item.favIconBase64}}" title="{{item.nameSite}}" alt="raccourcis"/>
+                {{item.nameSite}}
               </a>
             </div>
           </div>

@@ -33,7 +33,7 @@ export class ServiceComponent {
     return false;
   }
 
-  getConnectedUtilisateur(): String {
+  getConnectedUtilisateur(): string {
     let jsonCurrentUser = localStorage.getItem('currentUser');
     if (jsonCurrentUser) {
       let currentUser = JSON.parse(jsonCurrentUser);
@@ -121,11 +121,11 @@ export class ServiceComponent {
   saveRaccourcis(raccourcis: Raccourcis) {
 
     let jSonRaccourcis:string = JSON.stringify(raccourcis);
-    console.log(jSonRaccourcis);
+    console.log("json save rac ", jSonRaccourcis);
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
+        'Content-Type':  'application/json',
         'Accept': '*/*'
       })
     };
@@ -145,16 +145,19 @@ export class ServiceComponent {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
+        'Content-Type':  'application/json',
         'Accept': '*/*'
       })
     };
 
-    return this.http.put(`${environment.apiUrl}/raccourcis`+raccourcis.id, jSonRaccourcis, httpOptions);
+    return this.http.put(`${environment.apiUrl}/raccourcis/`+raccourcis.id.toString(), jSonRaccourcis, httpOptions);
   }
 
   deleteRaccourcis(raccourcis: Raccourcis) {
-    return this.http.delete(`${environment.apiUrl}/raccourcis`+raccourcis.id);
+    console.log("service delete raccourcis ", raccourcis);
+    const url = `${environment.apiUrl}/raccourcis/`+raccourcis.id.toString();
+    console.log(url);
+    return this.http.delete(`${environment.apiUrl}/raccourcis/`+raccourcis.id.toString());
   }
 
 
@@ -177,7 +180,7 @@ export class ServiceComponent {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
+        'Content-Type':  'application/json',
         'Accept': '*/*'
       })
     };
@@ -197,16 +200,16 @@ export class ServiceComponent {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
+        'Content-Type':  'application/json',
         'Accept': '*/*'
       })
     };
 
-    return this.http.put(`${environment.apiUrl}/actu`+fluxNouvelle.id, jSonActu, httpOptions);
+    return this.http.put(`${environment.apiUrl}/actu/`+fluxNouvelle.id.toString(), jSonActu, httpOptions);
   }
 
   deleteActu(fluxNouvelle: FluxNouvelle) {
-    return this.http.delete(`${environment.apiUrl}/actu`+fluxNouvelle.id);
+    return this.http.delete(`${environment.apiUrl}/actu/`+fluxNouvelle.id.toString());
   }
 
   getMeteo() {

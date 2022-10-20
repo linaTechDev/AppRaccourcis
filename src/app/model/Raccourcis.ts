@@ -2,20 +2,20 @@ import {RaccourcisInfo} from "./RaccourcisInfo"
 
 export class Raccourcis {
   id: number;
-  nom: string;
-  url: string;
+  nameSite: string;
+  urlSite: string;
   nomUtilisateur: string;
   raccourcisInfo: RaccourcisInfo;
   nouveau: boolean;
   loaded: boolean;
 
-  constructor(id: number, nom: string, url: string, raccourcisInfo: RaccourcisInfo, nouveau?: boolean, nomUtilisateur?: string) {
-    this.id = id
-    this.nom = nom;
-    this.url = url;
+  constructor(id: number, nameSite: string, urlSite: string, nomUtilisateur: string, raccourcisInfo: RaccourcisInfo, nouveau?: boolean) {
+    this.id = id;
+    this.nameSite = nameSite;
+    this.urlSite = urlSite;
+    this.nomUtilisateur = nomUtilisateur;
     this.raccourcisInfo = raccourcisInfo;
     this.nouveau = (nouveau) ? nouveau : false;
     this.loaded = !this.nouveau;
-    this.nomUtilisateur = (nomUtilisateur) ? nomUtilisateur: "";
   }
 }

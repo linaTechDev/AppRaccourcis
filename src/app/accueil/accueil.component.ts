@@ -17,6 +17,7 @@ import localeFrCA from '@angular/common/locales/fr-CA';
 
 export class AccueilComponent implements OnInit {
   nomPrenom!: String;
+  nomUtilisateur!: string;
   raccourcis: Array<Raccourcis> = [];
   actus: Array<FluxNouvelle> = [];
   meteo: Meteo= new Meteo();
@@ -56,6 +57,7 @@ export class AccueilComponent implements OnInit {
     });
 
     this.nomPrenom = this.service.NomPrenom();
+    this.nomUtilisateur = this.service.getConnectedUtilisateur();
 
     registerLocaleData(localeFrCA, 'fr-CA');
     this.currentDate = new Date();
@@ -84,8 +86,8 @@ export class AccueilComponent implements OnInit {
       .subscribe(
         (data : any) => {
           for (let item of data) {
-            console.log(item.nameSite, item.urlSite);
-            this.loadRaccourcis(item.nameSite, item.urlSite);
+            console.log(item.nameSite, item.urlSite, item.id);
+            this.loadRaccourcis(item.id, item.nameSite, item.urlSite,false);
           }
         },
         (error: any) => {
@@ -99,8 +101,8 @@ export class AccueilComponent implements OnInit {
       .subscribe(
         (data : any) => {
           for (let item of data) {
-            console.log(item.nameSite, item.urlSite);
-            this.loadActu(item.nameSite, item.urlSite);
+            console.log(item.nameSite, item.urlSite, item.id);
+            this.loadActu(item.id, item.nameSite, item.urlSite,false);
           }
         },
         (error: any) => {
@@ -130,11 +132,11 @@ export class AccueilComponent implements OnInit {
     if (item.id == 0) {
       previewARegenerer = true;
     } else {
-      let index = this.raccourcis.findIndex(x => (x.nom == item.nom) && (x.url == item.url) && (x.id == item.id));
+      let index = this.raccourcis.findIndex(x => (x.nameSite == item.nameSite) && (x.urlSite == item.urlSite) && (x.id == item.id));
       if (index > -1) {
-        if (this.raccourcis[index].url == this.fr.urlSite.value) {
+        if (this.raccourcis[index].urlSite == this.fr.urlSite.value) {
           // seulement le nom a changer, alors met a jour
-          this.raccourcis[index].nom = this.fr.nameSite.value
+          this.raccourcis[index].nameSite = this.fr.nameSite.value
         } else {
           // l'url a changer supprime, car il faut regénéer le preview
           this.raccourcis.splice(index, 1);
@@ -142,20 +144,38 @@ export class AccueilComponent implements OnInit {
         }
       }
     }
-    item.nom = this.fr.nameSite.value;
-    item.url = this.fr.urlSite.value;
+    item.nameSite = this.fr.nameSite.value;
+    item.urlSite = this.fr.urlSite.value;
     console.log(item);
 
     if (item.id > 0) {
-      this.service.updateRaccourcis(item);
+      this.service.updateRaccourcis(item)
+        .pipe(first())
+        .subscribe(
+          (data : any) => {
+            console.log("update success ", data);
+          },
+          (error: any) => {
+            console.log('update failed ', error);
+          });
     } else {
       this.service.saveRaccourcis(item)
+        .pipe(first())
+        .subscribe(
+          (data : any) => {
+            console.log("save success ", data);
+          },
+          (error: any) => {
+            console.log('save failed ', error);
+          });
     }
 
     if (previewARegenerer) {
       this.loadRaccourcis(
-        item.nom,
-        item.url
+        0,
+        item.nameSite,
+        item.urlSite,
+        false
       );
     }
     this.raccourci.reset();
@@ -173,6 +193,7 @@ export class AccueilComponent implements OnInit {
     if (!this.raccourcis[0].nouveau) {
       this.raccourci.reset();
       this.loadRaccourcis(
+        0,
         '',
         '',
         true
@@ -185,21 +206,29 @@ export class AccueilComponent implements OnInit {
     // ne pas ajouter, s'il y a déjà un add ou edit en cours
     if (!this.raccourcis[0].nouveau) {
       this.raccourci.reset();
-      this.fr.nameSite.setValue(item.nom);
-      this.fr.urlSite.setValue(item.url);
+      this.fr.nameSite.setValue(item.nameSite);
+      this.fr.urlSite.setValue(item.urlSite);
       this.loadRaccourcis(
-        item.nom,
-        item.url,
-        true,
-        item.id
+        item.id,
+        item.nameSite,
+        item.urlSite,
+        true
       );
     }
   }
 
   deleteRaccourci(item: Raccourcis) {
-    this.service.deleteRaccourcis(item);
+    this.service.deleteRaccourcis(item)
+      .pipe(first())
+      .subscribe(
+        (data : any) => {
+          console.log("delete success ", data);
+        },
+        (error: any) => {
+          console.log('delete failed ', error);
+        });
 
-    let index =  this.raccourcis.findIndex(x => (x.nom==item.nom) && (x.url==item.url) && (x.id==item.id) );
+    let index =  this.raccourcis.findIndex(x => (x.nameSite==item.nameSite) && (x.urlSite==item.urlSite) && (x.id==item.id) );
     if (index > -1) {
       this.raccourcis.splice(index, 1);
     }
@@ -223,11 +252,11 @@ export class AccueilComponent implements OnInit {
     if (item.id == 0) {
       previewARegenerer = true;
     } else {
-      let index = this.actus.findIndex(x => (x.nom == item.nom) && (x.url == item.url) && (x.id == item.id));
+      let index = this.actus.findIndex(x => (x.nameSite == item.nameSite) && (x.urlSite == item.urlSite) && (x.id == item.id));
       if (index > -1) {
-        if (this.actus[index].url == this.ff.urlActu.value) {
+        if (this.actus[index].urlSite == this.ff.urlActu.value) {
           // seulement le nom a changer, alors met a jour
-          this.actus[index].nom = this.ff.nameActu.value
+          this.actus[index].nameSite = this.ff.nameActu.value
         } else {
           // l'url a changer supprime, car il faut regénérer le preview
           this.actus.splice(index, 1);
@@ -235,20 +264,38 @@ export class AccueilComponent implements OnInit {
         }
       }
     }
-    item.nom = this.ff.nameActu.value;
-    item.url = this.ff.urlActu.value;
+    item.nameSite = this.ff.nameActu.value;
+    item.urlSite = this.ff.urlActu.value;
     console.log(item);
 
     if (item.id > 0) {
-      this.service.updateActu(item);
+      this.service.updateActu(item)
+        .pipe(first())
+        .subscribe(
+          (data : any) => {
+            console.log("update success ", data);
+          },
+          (error: any) => {
+            console.log('update failed ', error);
+          });
     } else {
       this.service.saveActu(item)
+        .pipe(first())
+        .subscribe(
+          (data : any) => {
+            console.log("save success ", data);
+          },
+          (error: any) => {
+            console.log('save failed ', error);
+          });
     }
 
     if (previewARegenerer) {
       this.loadActu(
-        item.nom,
-        item.url
+        0,
+        item.nameSite,
+        item.urlSite,
+        false
       );
     }
     this.actu.reset();
@@ -266,6 +313,7 @@ export class AccueilComponent implements OnInit {
     if (!this.actus[0].nouveau) {
       this.actu.reset();
       this.loadActu(
+        0,
         '',
         '',
         true
@@ -278,21 +326,29 @@ export class AccueilComponent implements OnInit {
     // ne pas ajouter, s'il y a déjà un add ou edit en cours
     if (!this.actus[0].nouveau) {
       this.actu.reset();
-      this.ff.nameActu.setValue(item.nom);
-      this.ff.urlActu.setValue(item.url);
+      this.ff.nameActu.setValue(item.nameSite);
+      this.ff.urlActu.setValue(item.urlSite);
       this.loadActu(
-        item.nom,
-        item.url,
-        true,
-        item.id
+        item.id,
+        item.nameSite,
+        item.urlSite,
+        true
       );
     }
   }
 
   deleteActu(item: FluxNouvelle) {
-    this.service.deleteActu(item);
+    this.service.deleteActu(item)
+    .pipe(first())
+      .subscribe(
+        (data : any) => {
+          console.log("delete success ", data);
+        },
+        (error: any) => {
+          console.log('delete failed ', error);
+        });
 
-    let index =  this.actus.findIndex(x => (x.nom==item.nom) && (x.url==item.url) && (x.id==item.id) );
+    let index =  this.actus.findIndex(x => (x.nameSite==item.nameSite) && (x.urlSite==item.urlSite) && (x.id==item.id) );
     if (index > -1) {
       this.actus.splice(index, 1);
     }
@@ -301,11 +357,11 @@ export class AccueilComponent implements OnInit {
 
 
 
-  loadRaccourcis(nom: string, url: string, nouveau?: boolean, id?: number) {
+  loadRaccourcis(id: number, nom: string, url: string, nouveau?: boolean) {
     if (nouveau) {
       let raccourcisInfo = new RaccourcisInfo("", url, "", "", "",
         "", "", "", "");
-      let raccourcis = new Raccourcis((id) ? id : 0, nom, url, raccourcisInfo, nouveau);
+      let raccourcis = new Raccourcis(id, nom, url, this.nomUtilisateur, raccourcisInfo, nouveau);
       this.raccourcis.unshift(raccourcis);
 
       const leftAccueil = document.querySelector('.leftAccueil') as HTMLElement | null;
@@ -329,7 +385,7 @@ export class AccueilComponent implements OnInit {
               imageBase64: data.imageBase64,
               favIconBase64: data.favIconBase64
             }
-            let raccourcis = new Raccourcis(this.raccourcis.length+1, nom, url, raccourcisInfo);
+            let raccourcis = new Raccourcis(id, nom, url, this.nomUtilisateur, raccourcisInfo, nouveau);
             this.raccourcis.push(raccourcis);
             if (data.errorMessage) {
               console.log('raccourcisInfo failed:', nom, url, data.errorMessage);
@@ -341,16 +397,16 @@ export class AccueilComponent implements OnInit {
             console.log('raccourcisInfo failed:', nom, url, error);
             let raccourcisInfo = new RaccourcisInfo("", url, "", "", "",
               "", "", "", "");
-            let raccourcis = new Raccourcis(this.raccourcis.length+1, nom, url, raccourcisInfo);
+            let raccourcis = new Raccourcis(id, nom, url, this.nomUtilisateur, raccourcisInfo, nouveau);
             this.raccourcis.push(raccourcis);
           });
     }
   }
 
-  loadActu(nom: string, url: string, nouveau?: boolean, id?: number) {
+  loadActu(id: number, nom: string, url: string, nouveau?: boolean) {
     if (nouveau) {
       let actusInfos: Array<ActuInfo> = [];
-      let actu = new FluxNouvelle((id) ? id : 0, nom, url, '', '', actusInfos, nouveau);
+      let actu = new FluxNouvelle(id, nom, url, this.nomUtilisateur, '', '', actusInfos, nouveau);
       this.actus.unshift(actu);
 
       const rightAccueil = document.querySelector('.rightAccueil') as HTMLElement | null;
@@ -370,7 +426,7 @@ export class AccueilComponent implements OnInit {
               .pipe(first())
               .subscribe(
                 (data: any) => {
-                  let actu = new FluxNouvelle(this.actus.length+1, nom, url, data.favIconUrl, data.favIconBase64, actusInfos);
+                  let actu = new FluxNouvelle(id, nom, url, this.nomUtilisateur, data.favIconUrl, data.favIconBase64, actusInfos);
                   this.actus.push(actu);
                   if (data.errorMessage) {
                     console.log('actusInfos failed:', url, data.errorMessage);
@@ -380,7 +436,7 @@ export class AccueilComponent implements OnInit {
                 },
                 (error: any) => {
                   console.log('actusInfos raccourcisInfo failed:', nom, url, error);
-                  let actu = new FluxNouvelle(this.actus.length+1, nom, url, '', '', actusInfos);
+                  let actu = new FluxNouvelle(id, nom, url, this.nomUtilisateur, '', '', actusInfos);
                   this.actus.push(actu);
                 });
 
@@ -398,7 +454,7 @@ export class AccueilComponent implements OnInit {
               .pipe(first())
               .subscribe(
                 (data: any) => {
-                  let actu = new FluxNouvelle(this.actus.length+1, nom, url, data.favIconUrl, data.favIconBase64, actusInfos);
+                  let actu = new FluxNouvelle(id, nom, url, this.nomUtilisateur, data.favIconUrl, data.favIconBase64, actusInfos);
                   this.actus.push(actu);
                   if (data.errorMessage) {
                     console.log('actusInfos failed:', url, data.errorMessage);
@@ -408,7 +464,7 @@ export class AccueilComponent implements OnInit {
                 },
                 (error: any) => {
                   console.log('actusInfos failed:', nom, url, error);
-                  let actu = new FluxNouvelle(this.actus.length+1, nom, url, '', '', actusInfos);
+                  let actu = new FluxNouvelle(id, nom, url, this.nomUtilisateur, '', '', actusInfos);
                   this.actus.push(actu);
                 });
 
