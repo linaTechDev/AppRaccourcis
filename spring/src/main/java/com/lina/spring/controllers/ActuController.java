@@ -43,17 +43,8 @@ public class ActuController {
     UtilisateurDto utilisateurDto = serviceUtilisateur.findByNomUtilisateur(fluxNouvellesForm.getNomUtilisateur());
     FluxNouvellesDto fluxNouvellesDto = new FluxNouvellesDto(
       null,
-      fluxNouvellesForm.getTitle(),
-      fluxNouvellesForm.getRaccourcis(),
-      fluxNouvellesForm.getPubDate(),
-      fluxNouvellesForm.getDescription(),
-      fluxNouvellesForm.getSource(),
-      fluxNouvellesForm.getSourceUrl(),
-      fluxNouvellesForm.getImageUrl(),
-      fluxNouvellesForm.getImageBase64(),
-      fluxNouvellesForm.getFavIconUrl(),
-      fluxNouvellesForm.getFavIconBase64(),
-      fluxNouvellesForm.getErrorMessage(),
+      fluxNouvellesForm.getNameSite(),
+      fluxNouvellesForm.getUrlSite(),
       utilisateurDto
     );
     return serviceActu.saveFluxNouvelles(fluxNouvellesDto.toFluxNouvelles());
@@ -64,17 +55,8 @@ public class ActuController {
                                               @RequestBody FluxNouvellesDto fluxNouvellesDtoDetail) {
     FluxNouvellesDto fluxNouvelles = serviceActu.getFluxNouvelles(id);
 
-    fluxNouvelles.setTitle(fluxNouvellesDtoDetail.getTitle());
-    fluxNouvelles.setRaccourcis(fluxNouvellesDtoDetail.getRaccourcis());
-    fluxNouvelles.setPubDate(fluxNouvellesDtoDetail.getPubDate());
-    fluxNouvelles.setDescription(fluxNouvellesDtoDetail.getDescription());
-    fluxNouvelles.setSource(fluxNouvellesDtoDetail.getSource());
-    fluxNouvelles.setSourceUrl(fluxNouvellesDtoDetail.getSourceUrl());
-    fluxNouvelles.setImageUrl(fluxNouvellesDtoDetail.getImageUrl());
-    fluxNouvelles.setImageBase64(fluxNouvellesDtoDetail.getImageBase64());
-    fluxNouvelles.setFavIconUrl(fluxNouvellesDtoDetail.getFavIconUrl());
-    fluxNouvelles.setFavIconBase64(fluxNouvellesDtoDetail.getFavIconBase64());
-    fluxNouvelles.setErrorMessage(fluxNouvellesDtoDetail.getErrorMessage());
+    fluxNouvelles.setNameSite(fluxNouvellesDtoDetail.getNameSite());
+    fluxNouvelles.setUrlSite(fluxNouvellesDtoDetail.getUrlSite());
 
     return serviceActu.saveFluxNouvelles(fluxNouvelles.toFluxNouvelles());
   }

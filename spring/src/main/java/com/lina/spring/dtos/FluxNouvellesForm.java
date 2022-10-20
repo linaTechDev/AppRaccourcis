@@ -9,16 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FluxNouvellesForm {
   private String id;
-  private String title;
-  private String raccourcis;
-  private String pubDate;
-  private String description;
-  private String source;
-  private String sourceUrl;
-  private String imageUrl;
-  private String imageBase64;
-  private String favIconUrl;
-  private String favIconBase64;
-  private String errorMessage;
+  private String nameSite;
+  private String urlSite;
   private String nomUtilisateur;
 }
