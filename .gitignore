@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+.dockerignore
 
 # Node
 /node_modules
