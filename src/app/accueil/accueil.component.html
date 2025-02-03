@@ -91,48 +91,51 @@
             {{meteo.errorMessage}}
           </div>
           <ng-template #meteoInfos>
-            <div class="raccourcisPreview meteo meteoHeader">
+            <div *ngIf="weatherData" class="raccourcisPreview meteo meteoHeader">
               <h3 class="meteoCity">{{meteo.city}}</h3>
               <p class="meteoTimestamp">Émis le : {{meteo.timestamp}}</p>
 
               <div class="meteoActuelle">
-                <span class="currentTemp">{{meteo.meteoActuelle.temperature}}</span>
+                <span class="currentTemp">{{weatherData.current.temperature2m}}</span>
                 <div class="tempunit_wrapper">
                   <div class="tempunit">
                     <span>°C</span>
                   </div>
                   <p class="feelsLikeWrapper">
                     <span class="tRessentie">T. ressentie</span>
-                    <span class="feelsLike">{{meteo.meteoActuelle.tempRessentis}}</span>
+                    <span class="feelsLike">{{weatherData.current.apparentTemperature}}°C</span>
                   </p>
                 </div>
                 <div class="meteoIconWrapper">
-                  <img class="meteoIcon" src="data:;base64, {{meteo.meteoActuelle.meteoIconBase64}}" title="{{meteo.meteoActuelle.meteo}}" alt="meteo"/>
+                  <span class="weather-icon">{{weatherIconCurrent}}</span>
                 </div>
               </div>
               <span class="meteoCondition">
-                {{meteo.meteoActuelle.meteo}}
-                {{meteo.meteoActuelle.couvNuageuse}}
+                <strong> Couverture nuageuse:</strong>
+                {{weatherData.current.cloudCover}}%
               </span>
             </div>
 
-            <div class="raccourcisPreview meteo previsionMeteoWrapper">
-              <div *ngFor = "let previsonMeteoDaily of meteo.previsionMeteo" class="previsionMeteoColumn">
+            <div *ngIf="weatherData" class="raccourcisPreview meteo previsionMeteoWrapper">
+              <div *ngFor = "let code of weatherData.daily.weatherCode; let i = index" class="previsionMeteoColumn">
                 <div class="previsionMeteoRow">
-                  <span class="day">{{previsonMeteoDaily.day}}</span>
-                  <span class="date">{{previsonMeteoDaily.date}}</span>
+                  <span class="day">{{weatherData.daily.time[i] | date: 'EEEE'}}</span>
+                  <span class="date">{{weatherData.daily.time[i] | date: 'd'}}</span>
                 </div>
                 <div class="previsionMeteoRow">
-                  <span class="prevision">{{previsonMeteoDaily.prevision}}</span>
+                  <span class="prevision">Probabilité précipitation
+                    {{weatherData.daily.precipitationProbabilityMax[i]}}%</span>
                 </div>
                 <div class="previsionMeteoRow">
-                  <img *ngIf="previsonMeteoDaily.meteoIconBase64" class="meteoIcon" src="data:;base64, {{previsonMeteoDaily.meteoIconBase64}}" title="{{previsonMeteoDaily.prevision}}"  alt="meteo"/>
+                  <span>{{weatherIconDaily[i]}}</span>
                 </div>
                 <div class="previsionMeteoRow">
-                  <span>{{previsonMeteoDaily.haut}}</span>
+                  <span>{{weatherData.daily.temperature2mMax[i]}}°C</span>
+                  <span>{{weatherData.daily.temperature2mMin[i]}}°C</span>
                 </div>
                 <div class="previsionMeteoRow">
-                  <span>{{previsonMeteoDaily.bas}}</span>
+                  <span>{{weatherData.daily.apparentTemperatureMax[i]}}°C</span>
+                  <span>{{weatherData.daily.apparentTemperatureMin[i]}}°C</span>
                 </div>
               </div>
             </div>

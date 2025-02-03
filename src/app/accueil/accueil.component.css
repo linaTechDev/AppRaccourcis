@@ -306,6 +306,11 @@ body, html {
 .meteoIconWrapper {
 }
 
+.weather-icon {
+  font-size: 3rem;
+  margin-right: 10px;
+}
+
 .meteoIcon {
   width: 96px;
 }

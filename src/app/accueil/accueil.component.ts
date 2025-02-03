@@ -10,6 +10,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DatePipe, registerLocaleData  } from '@angular/common';
 import localeFrCA from '@angular/common/locales/fr-CA';
 
+import { WeatherData } from "../ApiMeteo/WeatherData";
+import MeteoApiService from "../ApiMeteo/meteo.api";
+import { getWeatherIcon } from "../ApiMeteo/weather.utils";
+
 @Component({
   templateUrl: 'accueil.component.html',
   styleUrls: ['accueil.component.css']
@@ -38,10 +42,18 @@ export class AccueilComponent implements OnInit {
   displayDateFormat: string = 'MMMM yyyy';
   displayDate: string|null = '';
 
+  weatherData: WeatherData | null = null;
+  latitude: number = 45.4512;
+  longitude: number = -73.5958;
+  forecastDays: number = 5;
+  weatherIconCurrent: string = '';
+  weatherIconDaily: string[] = [];
+
   constructor(
     private datepipe: DatePipe,
     private formBuilder: FormBuilder,
-    private service: ServiceComponent
+    private service: ServiceComponent,
+    private meteoService: MeteoApiService
   ) { }
 
   ngOnInit() {
@@ -73,6 +85,8 @@ export class AccueilComponent implements OnInit {
     this.getRaccourcis()
     this.getActu()
     this.getMeteo();
+
+    this.getMeteoData();
 
   }
 
@@ -493,6 +507,24 @@ export class AccueilComponent implements OnInit {
           }
         });
 
+  }
+
+  getMeteoData() {
+    this.meteoService.getWeatherData(
+      this.latitude, this.longitude, this.forecastDays
+    ).subscribe(
+      (response) => {
+        this.weatherData = new WeatherData(response);
+        this.weatherIconCurrent = getWeatherIcon(this.weatherData.current.weatherCode);
+        for (let i = 0; i < this.weatherData.daily.weatherCode.length; i++) {
+          this.weatherIconDaily.push(getWeatherIcon(this.weatherData.daily.weatherCode[i]));
+        }
+        console.log('Weather Data loaded', this.weatherData, this.weatherIconDaily);
+      },
+      (error) => {
+        console.log('Error Weather Data loaded', error);
+      }
+    )
   }
 
 
