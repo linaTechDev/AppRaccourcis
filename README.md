@@ -1,4 +1,7 @@
-**Projet: Everyday avec une interface en Angular**
+**Projet: Site web Everyday**
+
+*Preview du site web*
+![3E18A870-2F22-4225-A17F-5AEC4DAC7376_1_201_a](https://github.com/user-attachments/assets/5c9f35f1-c52b-4344-8f8c-700d079fc76f)
 
 **Procédure d’installation:**
 
@@ -60,8 +63,8 @@ Opinion sur le site: 7/10 (très utile). Il manque la connexion avec le backend.
 - Test du backend avec postman et quelques corrections après
 
   ![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.004.png)
-
-![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.005.png)
+  
+  ![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.005.png)
 
 - Ajout dans Angular le lien avec Spring
 # <a name="_mjs13fgl087e"></a>Sprint 3
@@ -79,7 +82,7 @@ Opinion sur le site: 7/10 (très utile). Il manque la connexion avec le backend.
 
 - CRUD raccorcis test postman
 
-`	`![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.006.png)
+	 ![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.006.png)
 
 ![](readme/Aspose.Words.51acb96e-aa55-46bf-95cd-9a1c96dade2a.007.png)
 
@@ -96,7 +99,7 @@ Opinion sur le site: 7/10 (très utile). Il manque la connexion avec le backend.
   - Appris :
     - il y a beaucoup de types de widgets (bouton, checkbox, file…)
 
-`		`Opinion sur le site : 5 / 10 (manque d’information et de plus de description)
+      Opinion sur le site : 5 / 10 (manque d’information et de plus de description)
 
 - Test avec postman du CRUD pour les widgets
 
@@ -121,7 +124,7 @@ Opinion sur le site: 7/10 (très utile). Il manque la connexion avec le backend.
       - C’est possible avec angular d’afficher un loader en overlay grâce à la composante cdk, à partir d’un http intercepteur (pour démarrer le loader)
       - On peux styliser un spinner en Angular dans le css
 
-`			`Opinion sur le site (8/10) très utile, mais pas assez d’information pour l’intégration du loader sur l’intégration http intercepteur
+		  Opinion sur le site (8/10) très utile, mais pas assez d’information pour l’intégration du loader sur l’intégration http intercepteur
 
 - Installation d’une dépendence
 
@@ -133,4 +136,4 @@ Opinion sur le site: 7/10 (très utile). Il manque la connexion avec le backend.
 - Appris :
   - la logique avec l’aide de la composante Jsoup pour extraire l’information nécessaire à créer le preview
 
-`	`Opinion sur le site (8/10) utile
+    Opinion sur le site (8/10) utile
