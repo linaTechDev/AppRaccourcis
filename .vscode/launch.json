@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Application",
+      "request": "launch",
+      "mainClass": "com.lina.spring.Application",
+      "projectName": "app-raccourcis-api"
+    },
+    {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",

@@ -6,7 +6,7 @@
   <groupId>com.lina</groupId>
   <artifactId>app-raccourcis-api</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>app-raccourcis-api</name>
   <description>app-raccourcis-api</description>
 
@@ -19,6 +19,8 @@
 
 	<properties>
 		<java.version>17</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -139,15 +141,19 @@
 					</excludes>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                </configuration>
-            </plugin>
-        </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+            <source>17</source>
+            <target>17</target>
+            <compilerVersion>17</compilerVersion>      
+            <fork>true</fork>
+            <executable>/Users/linalacroix/Library/Java/JavaVirtualMachines/corretto-17.0.14/Contents/Home/bin/javac</executable>
+        </configuration>
+      </plugin>
+    </plugins>
 	</build>
 
 </project>
