@@ -150,7 +150,6 @@
             <target>17</target>
             <compilerVersion>17</compilerVersion>      
             <fork>true</fork>
-            <executable>/Users/linalacroix/Library/Java/JavaVirtualMachines/corretto-17.0.14/Contents/Home/bin/javac</executable>
         </configuration>
       </plugin>
     </plugins>
